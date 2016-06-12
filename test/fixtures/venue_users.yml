@@ -9,7 +9,7 @@ venue_user_fix_2:
   user: user_fix_2
   venue: venue_fix_2
   activated_at: <%= 10.minutes.ago %>
-  role: VenueUser::ADMIN_ROLE_NAME
+  role: <%=  VenueUser::ADMIN_ROLE_NAME %>
 
 venue_user_fix_most_recent:
   user: user_fix_1

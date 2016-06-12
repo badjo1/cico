@@ -1,5 +1,6 @@
 class Venue < ActiveRecord::Base
   has_many :venue_users
+  has_many :spaces
 
   before_save   :downcase_subdomain
 

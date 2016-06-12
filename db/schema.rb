@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160609200030) do
+ActiveRecord::Schema.define(version: 20160612091904) do
+
+  create_table "spaces", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "venue_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "spaces", ["venue_id"], name: "index_spaces_on_venue_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name"

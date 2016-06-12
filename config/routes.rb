@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  resources :spaces
   get 'venue_users/new'
 
   get 'sessions/new'
