@@ -5,3 +5,13 @@ user_fix_1:
   last_name: Bloemers
   email: bart@badjo.nl
   password_digest: <%= User.digest('password') %>
+  activated: true
+  activated_at: <%=Time.zone.now%>
+
+user_fix_2:
+  first_name: Djoke
+  last_name: Hoogland
+  email: djoke@badjo.nl
+  password_digest: <%= User.digest('password') %>
+  activated: true
+  activated_at: <%=Time.zone.now%>

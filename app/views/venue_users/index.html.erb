@@ -1,0 +1,19 @@
+<% provide(:title, 'All users') %>
+<h1>All users</h1>
+
+<%= link_to "New user", new_venue_user_path, class: "btn btn-lg btn-primary" %>
+
+<%= will_paginate %>
+<ul class="users">
+  <% @venue_users.each do |venue_user| %>
+    <li>
+      <%= link_to venue_user.user.fullname, venue_user.user %>
+
+      <% if current_user.admin? && !current_user?(venue_user.user) %>
+        | <%= link_to "delete", venue_user, method: :delete, data: { confirm: "You sure?" } %>
+      <% end %>
+
+    </li>
+  <% end %>
+</ul>
+<%= will_paginate %>

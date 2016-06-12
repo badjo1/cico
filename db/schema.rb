@@ -11,16 +11,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160605110105) do
+ActiveRecord::Schema.define(version: 20160609200030) do
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email"
     t.string   "password_digest"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.string   "remember_digest"
+    t.string   "activation_digest"
+    t.boolean  "activated",         default: false
+    t.datetime "activated_at"
   end
+
+  create_table "venue_users", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "venue_id"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.datetime "activated_at"
+    t.string   "role",         default: "user"
+  end
+
+  add_index "venue_users", ["user_id", "activated_at"], name: "index_venue_users_on_user_id_and_activated_at"
+  add_index "venue_users", ["user_id", "venue_id"], name: "index_venue_users_on_user_id_and_venue_id", unique: true
+  add_index "venue_users", ["user_id"], name: "index_venue_users_on_user_id"
+  add_index "venue_users", ["venue_id"], name: "index_venue_users_on_venue_id"
+
+  create_table "venues", force: :cascade do |t|
+    t.string   "name"
+    t.string   "subdomain"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "venues", ["subdomain"], name: "index_venues_on_subdomain", unique: true
 
 end

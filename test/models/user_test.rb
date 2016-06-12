@@ -81,12 +81,21 @@ class UserTest < ActiveSupport::TestCase
     assert_equal mixed_case_email.downcase, @user.reload.email
   end
 
-  test "password should be present (nonblank)" do
+  test "password can blank when not activated" do
+    not_activated_user = User.new(first_name: "Bart", last_name: "Bloemers", email: "min@example.com")
+    not_activated_user.save!
+    assert not_activated_user.valid?
+  end
+
+
+  test "password should be present (nonblank) when activated" do
+    @user.activated = true
     @user.password = @user.password_confirmation = " " * 6
     assert_not @user.valid?
   end
 
-  test "password should have a minimum length" do
+  test "password should have a minimum length when activated" do
+    @user.activated = true
     @user.password = @user.password_confirmation = "a" * 5
     assert_not @user.valid?
   end
