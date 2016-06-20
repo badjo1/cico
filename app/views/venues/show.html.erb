@@ -1,0 +1,181 @@
+<% provide(:title, 'Book a space') %>
+<h1>Book a space</h1>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">    
+      <div class="btn-group" role="group">
+        <%= link_to "", book_path((@selected_date-1.day).to_i), class: "btn btn-default glyphicon glyphicon-chevron-left" %>
+
+        <%= link_to "", book_path((@selected_date+1.day).to_i), class: "btn btn-default glyphicon glyphicon-chevron-right" %>
+      </div>
+      <%= link_to "today", book_path(Time.zone.now.to_i), class: "btn btn-default" %>
+    </div>
+    
+    
+    <div class='col-md-4'>
+      <%= text_field_tag 'datepicker4', @selected_date.strftime("%e %B %Y"), class: "btn btn-default" %> 
+
+      <script type="text/javascript">
+        $(function () {
+          $('#datepicker4').datetimepicker({
+           format: "D MMMM YYYY"
+          });
+          $("#datepicker4").on("dp.change",function (e) {
+            m=e.date.unix();
+            document.location = "/book/"+ m;
+          });
+        });
+      </script>
+    </div>
+    
+    <div class="col-md-4">
+      <div class="btn-group" role="group">
+        <%= btn_link_active "day", book_path(@selected_date.to_i) %>
+        <%= btn_link_active "week", schedule_week_path(@selected_date.to_i) %>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div id='calendar'></div>
+  </div>
+  
+</div>
+
+
+<!-- Modal -->
+<div id="eventDialog" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Create an appointment</h4>
+      </div>
+      <div class="modal-body">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="submitButton">Save</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    
+    $('#calendar').fullCalendar({
+      schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+      defaultView: '<%= show_week? ? 'agendaWeek' : 'agendaDay' %>',
+      defaultDate: '<%= @selected_date.strftime("%Y-%m-%d") %>',
+      firstDay:1, //week starts at Monday
+      editable: false,
+      selectable: true,
+      heigth: 'auto',
+      contentHeight: 'auto',
+      aspectRatio: 1.5,
+      scrollTime: '00:00',
+      groupByResource: false,      
+      slotDuration: '00:30:00',
+      slotLabelInterval: '01:00:00',
+      snapDuration: '01:30:00',
+      minTime: '08:00:00',
+      maxTime: '23:00:00',
+      allDaySlot: false,
+      header: {
+        left: '',
+        center: '',
+        right: ''//'agendaWeek,agendaDay'
+      },
+      events: [
+
+<% @space_entries.each do |entry| %>
+  { id: '<%= entry.id %>', 
+    title: '<%= entry.event.event_name %>', 
+    start: '<%= entry.start_time.strftime("%Y-%m-%d %H:%M") %>',
+    end: '<%= entry.end_time.strftime("%Y-%m-%d %H:%M") %>',
+    resourceId: '<%= entry.space_id %>',
+    editable: '<%= true%>'
+    },
+<% end %>
+
+      ],
+      resources: [
+          // go here { id: 'b', title: 'Room B' },
+          <% @spaces.each do |space| %>
+            { id: '<%= space.id %>', title: '<%= space.name %>' },
+          <% end %>
+      ],
+
+      select: function(start, end, jsEvent, view, resource) {
+        //start, end is object of moment.js
+        resource_id = (resource)? resource.id : 0;
+        var data = {
+          start_time: start.unix().toString(),
+          end_time: end.unix().toString(),
+          space_id: resource_id
+        };  
+        document.location = '<%= new_event_path %>' + '?' + jQuery.param(data);
+
+        //$('#eventDialog').modal();
+
+      },
+      eventClick: function(calEvent, jsEvent, view) {
+        $('#eventDialog h4').text("Event: "+calEvent.title);
+        $('#eventDialog').modal('toggle');
+      },
+
+      eventDrop: function(event, delta, revertFunc) {
+        var data = {
+          start_time: event.start.unix().toString(),
+          end_time: event.end.unix().toString(),
+          space_id: event.resourceId
+        }; 
+        document.location = '/space_entries/'+ event.id +'/edit?' +jQuery.param(data);;
+      },
+      eventResize: function(event, delta, revertFunc) {
+
+        var data = {
+          end_time: event.end.unix().toString(),
+        }; 
+        document.location = '/space_entries/'+ event.id +'/edit?' +jQuery.param(data);
+
+      }
+
+    });
+
+  $('#submitButton').on('click', function(e){
+    $('#eventDialog').modal('toggle');
+    e.preventDefault();
+  });
+
+  function doSubmit(){
+    $("#createEventModal").modal('hide');
+    console.log($('#apptStartTime').val());
+    console.log($('#apptEndTime').val());
+    console.log($('#apptAllDay').val());
+    alert("form submitted");
+        
+    $("#calendar").fullCalendar('renderEvent',
+      {
+          title: $('#patientName').val(),
+          start: new Date($('#apptStartTime').val()),
+          end: new Date($('#apptEndTime').val()),
+          allDay: ($('#apptAllDay').val() == "true"),
+      },
+      true);
+    }    
+  });
+</script>
+
+
+
+
+
+

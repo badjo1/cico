@@ -8,7 +8,7 @@
         <nav>
           <ul class="nav navbar-nav navbar-right">
             <li><%= link_to "Home", root_path %></li>
-            <li><%= link_to "Book", "#" %></li>
+            <li><%= link_to "Book", book_path %></li>
             <li><%= link_to "Help", help_path %></li>
             <% if logged_in? %>
               <li><%= link_to "Users", venue_users_path %></li>

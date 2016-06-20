@@ -1,0 +1,33 @@
+<% provide(:title, 'New appointment') %>
+
+<h1>Create an appointment (Events</h1>
+
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for(@event) do |f| %>
+     <%= render 'shared/error_messages', object: f.object %>
+
+      <%= f.label :event_name %>
+      <%= f.text_field :event_name, class: 'form-control' %>
+
+      <%= f.fields_for :space_entries do |ff| %>
+        <%= ff.label :start_time %>
+        <%= ff.text_field :start_time, :value => (@space_entry.start_time.strftime("%d-%m-%Y %H:%M") unless @space_entry.start_time.nil?), class: 'form-control' %>
+
+        <%= ff.label :end_time %>
+        <%= ff.text_field :end_time, :value => (@space_entry.end_time.strftime("%d-%m-%Y %H:%M") unless @space_entry.end_time.nil?), class: 'form-control' %>
+
+        <%= ff.label :space %>
+        
+        <%= ff.select(:space_id, current_user.venue.spaces.collect {|p| [ p.name, p.id ] }, {include_blank: true}, {class: 'form-control'})%>
+
+      <% end %>  
+      <%= f.submit "Add appointment", class: "btn btn-primary" %>
+
+    <% end %>
+
+  </div>
+</div>
+
+<%= link_to 'Back', spaces_path %>

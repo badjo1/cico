@@ -1,0 +1,31 @@
+<% provide(:title, "Edit space Entry") %>
+<h1>Update appointmernt</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for(@space_entry) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <%= f.label :start_time %>
+      <%= f.datetime_select :start_time %>
+
+      <%= f.label :end_time %>
+      <%= f.datetime_select :end_time%>
+
+      <%= f.label :space %>
+      <%= f.select(:space_id, current_user.venue.spaces.collect {|p| [ p.name, p.id ] }, {include_blank: true}, {class: 'form-control'})%>
+
+      <%= f.submit "Save changes", class: "btn btn-primary" %>
+    <% end %>
+
+    <script type="text/javascript">
+        //http://eonasdan.github.io/bootstrap-datetimepicker/
+        $(function () {
+          $('#space_entry_start_time').datetimepicker();
+          $('#space_entry_end_time').datetimepicker();
+        });
+    </script>
+        
+
+  </div>
+</div>

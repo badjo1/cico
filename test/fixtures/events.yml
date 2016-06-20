@@ -1,0 +1,6 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+event_fix_1:
+  event_name: MyString
+  venue_user: venue_user_fix_1
+

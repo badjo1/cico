@@ -7,11 +7,6 @@ class UsersControllerTest < ActionController::TestCase
     @other_user = users(:user_fix_2)
   end
 
-  test "should get new" do
-    get :new
-    assert_response :success
-  end
-
   test "should redirect edit when not logged in" do
     get :edit, id: @user
     assert_not flash.empty?
