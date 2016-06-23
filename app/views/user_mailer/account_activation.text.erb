@@ -1,0 +1,10 @@
+Beste <%= @user.fullname %>,
+
+Via deze e-mail bevestigen we je registratie op stessverminderen.nl. 
+Klik op de onderstaande link om je registratie te bevestigen;
+
+<%= edit_account_activation_url(@user.activation_token, email: @user.email) %>
+
+Namens het team van stressverminderen,
+
+Bart Bloemers

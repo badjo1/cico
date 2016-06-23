@@ -31,7 +31,7 @@ module SessionsHelper
     elsif (user_id = cookies.signed[:user_id])
       venue_user = VenueUser.find_most_recent_by(user_id)
       user = venue_user.user
-      if user && user.authenticated?(cookies[:remember_token])
+      if user && user.authenticated?(:remember, cookies[:remember_token])
         log_in user
         @current_user = venue_user
       end

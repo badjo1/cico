@@ -1,0 +1,16 @@
+<h1>Shiatsu Platform</h1>
+
+<p>Beste <%= @user.fullname %>,</p>
+
+<p>
+Via deze e-mail bevestigen we je registratie op het SHIATSU platform 
+Klik op de onderstaande link om je registratie te bevestigen;
+</p>
+
+<%= link_to "Activate", edit_account_activation_url(@user.activation_token, email: @user.email) %>
+
+
+<p>Namens het team van shiatsu platform NL,
+<br><br>
+Bart Bloemers
+</p>

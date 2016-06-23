@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   
 
+  get 'password_resets/new'
+
+  get 'password_resets/edit'
+
   root 'static_pages#home'
   get 'help'    => 'static_pages#help'
   get 'signup'  => 'venue_users#new'
@@ -22,6 +26,9 @@ Rails.application.routes.draw do
   resources :spaces
   resources :space_entries, only: [:edit, :update]
   resources :events, only: [:new, :create]
+  resources :account_activations, only: [:edit]
+  resources :password_resets,     only: [:new, :create, :edit, :update]
+  
 
 
 end

@@ -20,7 +20,8 @@ class VenueUsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       VenueUser.create!(user: @user, venue: current_user.venue)
-      flash[:success] = "User invited"
+      @user.send_activation_email
+      flash[:success] = "Send email to user to activate the account"
       redirect_to venue_users_url
     else
       render 'new'
