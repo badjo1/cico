@@ -3,7 +3,7 @@
 venue_user_fix_1:
   user: user_fix_1
   venue: venue_fix_1
-  activated_at: <%= 10.minutes.ago %>
+  activated_at: <%= Time.zone.now %>
 
 venue_user_fix_2:
   user: user_fix_2
@@ -11,7 +11,8 @@ venue_user_fix_2:
   activated_at: <%= 10.minutes.ago %>
   role: <%=  VenueUser::ADMIN_ROLE_NAME %>
 
-venue_user_fix_most_recent:
+venue_user_latest:
   user: user_fix_1
   venue: venue_fix_2
-  activated_at: <%= Time.zone.now %>
+  activated_at: <%= 10.minutes.ago %>
+

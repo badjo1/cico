@@ -159,6 +159,10 @@ input {
   height: auto !important;
 }
 
+input[type="submit"] {
+  width: auto;
+}
+
 .checkbox {
   margin-top: -10px;
   margin-bottom: 10px;

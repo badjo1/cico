@@ -44,5 +44,23 @@ class SpaceEntryTest < ActiveSupport::TestCase
     assert_not @space_entry.valid?
   end
 
-  
+  test "Start time can not in another slot" do
+    assert @space_entry.valid?
+
+    dup_space_entry = @space_entry.dup
+    assert_not dup_space_entry.valid?
+
+
+    dup_space_entry.start_time += 2.minutes
+    assert_not dup_space_entry.valid?
+
+    dup_space_entry.start_time = @space_entry.end_time - 1.second
+    assert_not dup_space_entry.valid?
+
+    dup_space_entry.start_time = @space_entry.end_time
+    dup_space_entry.end_time = @space_entry.end_time + 10.minutes
+    assert dup_space_entry.valid?
+  end
+
+
 end

@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   
 
+  get 'schedule/show'
+
   get 'password_resets/new'
 
   get 'password_resets/edit'
@@ -11,21 +13,18 @@ Rails.application.routes.draw do
   get    'login'   => 'sessions#new'
   post   'login'   => 'sessions#create'
   delete 'logout'  => 'sessions#destroy'
-
-  #get    'book(/:unix)'   => 'venues#show' , as: 'book'
-  match 'book(/:unix)' => 'venues#show', via: [:get, :post], as: 'book'
-
-  get    'bookedspaces'   => 'venues#booked'
   
-  get    'schedule/day(/:unix)'   => 'venues#day'
-  get    'schedule/week(/:unix)'   => 'venues#week', as: 'schedule_week'
-  
+  resources :schedule, only: [:show] do 
+    resources :events, only: [:show, :new, :create, :destroy]
+    resources :space_entries, only: [:edit, :update]
+    get ':unix', :to => 'schedule#show', as: 'on', :on => :member
+  end
 
   resources :users, only: [:show, :edit, :update]
   resources :venue_users , only: [:index, :show, :new, :create, :destroy]
   resources :spaces
   resources :space_entries, only: [:edit, :update]
-  resources :events, only: [:new, :create]
+  resources :events, only: [:new, :create, :destroy]
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
   

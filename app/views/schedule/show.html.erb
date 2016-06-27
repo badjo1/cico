@@ -5,11 +5,16 @@
   <div class="row">
     <div class="col-md-4">    
       <div class="btn-group" role="group">
-        <%= link_to "", book_path((@selected_date-1.day).to_i), class: "btn btn-default glyphicon glyphicon-chevron-left" %>
-
-        <%= link_to "", book_path((@selected_date+1.day).to_i), class: "btn btn-default glyphicon glyphicon-chevron-right" %>
+        <%= link_to on_schedule_path(@schedule, (@selected_date-1.day).to_i), class: "btn btn-default" do %>
+          <span class="glyphicon glyphicon-chevron-left"></span>
+        <% end %>
+        
+        <%= link_to on_schedule_path(@schedule, (@selected_date+1.day).to_i), class: "btn btn-default" do %>
+          <span class="glyphicon glyphicon-chevron-right"></span>
+        <% end %>
       </div>
-      <%= link_to "today", book_path(Time.zone.now.to_i), class: "btn btn-default" %>
+      <%= link_to "today", on_schedule_path(@schedule, Time.zone.now.to_i), class: "btn btn-default" %>
+  
     </div>
     
     
@@ -23,7 +28,7 @@
           });
           $("#datepicker4").on("dp.change",function (e) {
             m=e.date.unix();
-            document.location = "/book/"+ m;
+            document.location = "<%= schedule_path(@schedule) %>/"+ m;
           });
         });
       </script>
@@ -31,8 +36,8 @@
     
     <div class="col-md-4">
       <div class="btn-group" role="group">
-        <%= btn_link_active "day", book_path(@selected_date.to_i) %>
-        <%= btn_link_active "week", schedule_week_path(@selected_date.to_i) %>
+        <%= btn_link_active "day", on_schedule_path("day", @selected_date.to_i) %>
+        <%= btn_link_active "week", on_schedule_path("week", @selected_date.to_i) %>
       </div>
     </div>
   </div>
@@ -59,6 +64,10 @@
 
       </div>
       <div class="modal-footer">
+      
+        <button type="button" class="btn btn-primary" id="btnDelete">delete</button>
+
+
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <button type="submit" class="btn btn-primary" id="submitButton">Save</button>
       </div>
@@ -67,15 +76,35 @@
   </div>
 </div>
 
+<style>
+  tr[data-time="08:30:00"] td,
+  tr[data-time="10:00:00"] td,
+  tr[data-time="11:30:00"] td,
+  tr[data-time="13:00:00"] td,
+  tr[data-time="14:30:00"] td,
+  tr[data-time="16:00:00"] td,
+  tr[data-time="17:30:00"] td,
+  tr[data-time="19:00:00"] td, 
+  tr[data-time="20:30:00"] td, 
+  tr[data-time="22:00:00"] td {
+    border-style: solid;
+    border-top-color:#FF5733 ;  
+  }
+  tr td.fc-axis {
+    border-top-color: #ddd; 
+  }
+
+
+</style>
+
 <script>
 $(document).ready(function() {
     
     $('#calendar').fullCalendar({
       schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
-      defaultView: '<%= show_week? ? 'agendaWeek' : 'agendaDay' %>',
+      defaultView: '<%= (@schedule=='week') ? 'agendaWeek' : 'agendaDay' %>',
       defaultDate: '<%= @selected_date.strftime("%Y-%m-%d") %>',
       firstDay:1, //week starts at Monday
-      editable: false,
       selectable: true,
       heigth: 'auto',
       contentHeight: 'auto',
@@ -86,7 +115,7 @@ $(document).ready(function() {
       slotLabelInterval: '01:00:00',
       snapDuration: '01:30:00',
       minTime: '08:00:00',
-      maxTime: '23:00:00',
+      maxTime: '22:30:00',
       allDaySlot: false,
       header: {
         left: '',
@@ -101,7 +130,14 @@ $(document).ready(function() {
     start: '<%= entry.start_time.strftime("%Y-%m-%d %H:%M") %>',
     end: '<%= entry.end_time.strftime("%Y-%m-%d %H:%M") %>',
     resourceId: '<%= entry.space_id %>',
-    editable: '<%= true%>'
+    <% if (current_venue_user_id?(entry.event.venue_user_id)) %>
+      url: '<%= schedule_event_path(@schedule, entry.event_id) %>' ,
+      editable: true,
+      color: '#f2dede',   
+      textColor: '#AD4240'
+    <% else %>
+      editable: false
+    <% end %>
     },
 <% end %>
 
@@ -126,10 +162,10 @@ $(document).ready(function() {
         //$('#eventDialog').modal();
 
       },
-      eventClick: function(calEvent, jsEvent, view) {
-        $('#eventDialog h4').text("Event: "+calEvent.title);
-        $('#eventDialog').modal('toggle');
-      },
+      // eventClick: function(calEvent, jsEvent, view) {
+      //   $('#eventDialog h4').text("Event: "+calEvent.title);
+      //   $('#eventDialog').modal('toggle');
+      // },
 
       eventDrop: function(event, delta, revertFunc) {
         var data = {
@@ -137,15 +173,17 @@ $(document).ready(function() {
           end_time: event.end.unix().toString(),
           space_id: event.resourceId
         }; 
-        document.location = '/space_entries/'+ event.id +'/edit?' +jQuery.param(data);;
+        document.location = '<%= schedule_path(@schedule) %>/space_entries/'+ event.id +'/edit?' +jQuery.param(data);
       },
       eventResize: function(event, delta, revertFunc) {
 
         var data = {
           end_time: event.end.unix().toString(),
         }; 
-        document.location = '/space_entries/'+ event.id +'/edit?' +jQuery.param(data);
-
+        document.location = '<%= schedule_path(@schedule) %>/space_entries/'+ event.id +'/edit?' +jQuery.param(data);
+      },
+      eventRender: function(event, element) {
+          // element.append( "<button type='button' class='close' >&times;</button>" );
       }
 
     });

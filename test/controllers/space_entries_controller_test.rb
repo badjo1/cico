@@ -11,7 +11,7 @@ class SpaceEntriesControllerTest < ActionController::TestCase
  
  test "should get edit" do
     log_in_as(@user)
-    get :edit, id: @space_entry
+    get :edit, id: @space_entry, schedule_id: 'day'
     assert_response :success
   end
 

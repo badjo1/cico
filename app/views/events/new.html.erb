@@ -1,6 +1,6 @@
-<% provide(:title, 'New appointment') %>
+<% provide(:title, 'Book a space') %>
 
-<h1>Create an appointment (Events</h1>
+<h1>Book a space</h1>
 
 
 <div class="row">
@@ -8,15 +8,31 @@
     <%= form_for(@event) do |f| %>
      <%= render 'shared/error_messages', object: f.object %>
 
-      <%= f.label :event_name %>
-      <%= f.text_field :event_name, class: 'form-control' %>
+<div class="btn-group form-group" data-toggle="buttons">
+  <label class="btn btn-primary active">
+    <%= f.label :appointment %>
+    <%= radio_button_tag(:event_type, :appointment, autocomplete: 'off') %>
+  </label>
+  <label class="btn btn-primary">
+    <%= f.label :workshop %>
+    <%= radio_button_tag(:event_type, :workshop, autocomplete: 'off') %>
+  </label>
+  <label class="btn btn-primary">
+    <%= f.label :training %>
+    <%= radio_button_tag(:event_type, :training, autocomplete: 'off') %>
+  </label>
+</div>
+<div class="form-group">
+  <%= f.label :name %>
+  <%= f.text_field :event_name, class: 'form-control' %>
+</div>
 
       <%= f.fields_for :space_entries do |ff| %>
         <%= ff.label :start_time %>
-        <%= ff.text_field :start_time, :value => (@space_entry.start_time.strftime("%d-%m-%Y %H:%M") unless @space_entry.start_time.nil?), class: 'form-control' %>
+        <%= ff.datetime_select :start_time %>
 
         <%= ff.label :end_time %>
-        <%= ff.text_field :end_time, :value => (@space_entry.end_time.strftime("%d-%m-%Y %H:%M") unless @space_entry.end_time.nil?), class: 'form-control' %>
+        <%= ff.datetime_select :end_time%>
 
         <%= ff.label :space %>
         
@@ -26,6 +42,14 @@
       <%= f.submit "Add appointment", class: "btn btn-primary" %>
 
     <% end %>
+
+    <script type="text/javascript">
+        $(function () {
+          $('#event_space_entries_attributes_0_start_time').datetimepicker();
+          $('#event_space_entries_attributes_0_end_time').datetimepicker();
+        });
+    </script>
+        
 
   </div>
 </div>

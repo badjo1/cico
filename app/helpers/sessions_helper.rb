@@ -44,6 +44,16 @@ module SessionsHelper
     user == current_user.user
   end
 
+  # Returns true if the given venue user is the current venue user
+  def current_venue_user?(venue_user)
+    venue_user == current_user
+  end
+
+  # Returns true if the given id is the current venue user id
+  def current_venue_user_id?(id)
+    id == current_user.id
+  end
+
   # Returns true if the user is logged in, false otherwise.
   def logged_in?
     !current_user.nil?

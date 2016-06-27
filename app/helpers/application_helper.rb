@@ -28,8 +28,8 @@ module ApplicationHelper
     end  
   end
 
-  def show_week?
-    url_for(:only_path => true).start_with?('/schedule/week')
-  end
+  # def show_week?
+  #   url_for(:only_path => true).start_with?('/schedule/week')
+  # end
 
 end

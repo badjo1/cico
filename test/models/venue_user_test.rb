@@ -21,9 +21,8 @@ class VenueUserTest < ActiveSupport::TestCase
   end
 
    test "order should be most recent" do
-    last_active = VenueUser.find_most_recent_by(@venue_user.user_id)
-    assert_equal venue_users(:venue_user_fix_most_recent), last_active
-    assert last_active.user.valid?
+    most_recent = VenueUser.find_most_recent_by(@venue_user.user_id)
+    assert_not_equal venue_users(:venue_user_latest), most_recent
   end
 
 end

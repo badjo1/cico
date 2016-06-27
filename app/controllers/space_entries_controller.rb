@@ -1,6 +1,8 @@
 class SpaceEntriesController < ApplicationController
 
   def edit
+    @schedule = params[:schedule_id]
+    
     @space_entry = SpaceEntry.find(params[:id])
     @space_entry.start_time =  Time.at( params[:start_time].to_i) if  params[:start_time]
     @space_entry.end_time =  Time.at( params[:end_time].to_i) if  params[:end_time]
@@ -9,12 +11,13 @@ class SpaceEntriesController < ApplicationController
   end
 
   def update
+    @schedule = params[:schedule_id]
+
     @space_entry = SpaceEntry.find(params[:id])
     if @space_entry.update_attributes(space_entry_params)
       flash[:success] = "Appointment updated"
-      redirect_to book_path(@space_entry.start_time.to_i)
+      redirect_to on_schedule_path(@schedule, @space_entry.start_time.to_i)
     else
-      flash[:error] = "Error occured when updating appointment"
       render 'edit'
     end
   end
