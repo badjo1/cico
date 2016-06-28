@@ -9,8 +9,6 @@
 
       <hr/>
 
-        <%= link_to :schedule, on_schedule_path(@schedule, @event.space_entries.first.start_time.to_i), class: "btn btn-default" %>
-
       <% if current_user.admin? || current_venue_user_id?(event.venue_user_id) %>
         <%= link_to "delete", schedule_event_path(@schedule,@event), method: :delete, class:"btn btn-default", data: {confirm:  "You sure?" } %>
       <% end %>
@@ -18,6 +16,8 @@
     </section>
   </aside>
   <div class="col-md-8">
+        <%= link_to :back_to_schedule, on_schedule_path(@schedule, @event.space_entries.first.start_time.to_i) %>
+
 
 
   </div>

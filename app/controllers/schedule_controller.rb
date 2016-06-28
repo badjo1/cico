@@ -12,7 +12,7 @@ class ScheduleController < ApplicationController
     end_at = @selected_date.end_of_day
     end_at = @selected_date.end_of_week if @schedule == 'week'
         
-    @space_entries = current_venue.space_entries.includes(:event)
+    @space_entries = current_venue.space_entries.includes(event: {venue_user: :user})
       .where(start_time: (start_at..end_at))
       .order(:start_time)
     render 'show'

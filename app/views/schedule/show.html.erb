@@ -126,7 +126,7 @@ $(document).ready(function() {
 
 <% @space_entries.each do |entry| %>
   { id: '<%= entry.id %>', 
-    title: '<%= entry.event.event_name %>', 
+    title: '<%= entry.event.venue_user.user.initials %>: <%= entry.event.event_name %>', 
     start: '<%= entry.start_time.strftime("%Y-%m-%d %H:%M") %>',
     end: '<%= entry.end_time.strftime("%Y-%m-%d %H:%M") %>',
     resourceId: '<%= entry.space_id %>',

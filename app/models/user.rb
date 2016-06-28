@@ -23,6 +23,10 @@ class User < ActiveRecord::Base
     [first_name, last_name].reject(&:blank?).map(&:capitalize).join(' ')
   end
 
+  def initials
+    "#{first_name[0]}#{last_name[0]}".upcase
+  end
+
   # Returns the hash digest of the given string.
   def User.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
