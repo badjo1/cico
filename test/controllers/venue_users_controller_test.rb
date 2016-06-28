@@ -72,5 +72,13 @@ class VenueUsersControllerTest < ActionController::TestCase
     assert_redirected_to root_url
   end
 
+   test "should destroy venue_user" do
+    log_in_as(@user)
+    assert_difference('VenueUser.count', -1) do
+      delete :destroy, id: @venue_user
+    end
+    assert_not flash.empty?
+    assert_redirected_to venue_users_url
+  end
 
 end

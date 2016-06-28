@@ -2,6 +2,8 @@ class VenueUser < ActiveRecord::Base
   ADMIN_ROLE_NAME = 'admin'
   belongs_to :user
   belongs_to :venue
+  has_many :events
+  
   
   validates :user_id, presence: true
   validates :venue_id, presence: true

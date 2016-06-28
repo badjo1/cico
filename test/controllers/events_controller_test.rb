@@ -52,7 +52,7 @@ class EventsControllerTest < ActionController::TestCase
     assert_difference(["Event.count", "SpaceEntry.count"], -1) do
       delete :destroy, id: @event, schedule_id: 'day'
     end
-    assert_redirected_to schedule_path('day', start_at.to_i )
+    assert_redirected_to on_schedule_path('day', start_at.to_i )
   end
 
 end

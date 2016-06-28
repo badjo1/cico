@@ -31,18 +31,16 @@ class VenueUsersController < ApplicationController
   def destroy
     venue_user = VenueUser.find(params[:id])
     
-    if venue_user.events.extists?
+    if venue_user.events.exists?
       flash[:danger] = "Can't not delete user if there are events"
       redirect_to venue_users_url
+    else
+      user = venue_user.user
+      venue_user.destroy
+      user.destroy if (user.venue_users.exists?)
+      flash[:success] = "User deleted"
+      redirect_to venue_users_url
     end
-
-    user = venue_user.user
-    venue_user.destroy
-    
-    user.destroy if (user.venue_user.exitst?)
-    
-    flash[:success] = "User deleted"
-    redirect_to venue_users_url
   end
 
   private

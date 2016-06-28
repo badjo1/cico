@@ -31,7 +31,7 @@ class EventsController < ApplicationController
     @space_entry = @event.space_entries.first
     if @event.save
       flash[:success] = "Appointment added"
-      redirect_to schedule_path('day',@space_entry.start_time.to_i)
+      redirect_to on_schedule_path('day',@space_entry.start_time.to_i)
     else
       render 'new'
     end
