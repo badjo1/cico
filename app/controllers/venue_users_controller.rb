@@ -30,9 +30,17 @@ class VenueUsersController < ApplicationController
 
   def destroy
     venue_user = VenueUser.find(params[:id])
-    #todo check user has no other venues
-    venue_user.user.destroy
+    
+    if venue_user.events.extists?
+      flash[:danger] = "Can't not delete user if there are events"
+      redirect_to venue_users_url
+    end
+
+    user = venue_user.user
     venue_user.destroy
+    
+    user.destroy if (user.venue_user.exitst?)
+    
     flash[:success] = "User deleted"
     redirect_to venue_users_url
   end
