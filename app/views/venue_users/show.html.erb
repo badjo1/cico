@@ -1,0 +1,31 @@
+<% provide(:title, @venue_user.fullname) %>
+<div class="row">
+  <aside class="col-md-4">
+    <section class="user_info">
+      <h1>
+        <%= @venue_user.fullname %>
+      </h1>
+      <div><%= @venue_user.user.activated_at.strftime("Joined %B %Y") %></div>
+
+      <% if current_user.admin? && !current_venue_user?(@venue_user) %>
+        <%= link_to "delete", @venue_user, method: :delete, data: { confirm: "You sure?" } %>
+      <% end %>
+
+    </section>
+  </aside>
+  <div class="col-md-8">
+      <% if @venue_user.events.any? %>
+        <h3>Appointments (<%= @events.count %>)
+          <span class="btn-group align-right" role="group">
+            <%= btn_link_active "active", venue_user_path(@venue_user) %>
+            <%= btn_link_active "archived", archive_venue_user_path(@venue_user) %>
+          </span>
+        </h3>
+        <ol class="events">
+          <%= render @events %>
+        </ol>
+        <%= will_paginate @events %>
+      <% end %>
+    </div>
+
+</div>

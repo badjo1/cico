@@ -1,0 +1,18 @@
+<li id="event-<%= event.id %>">
+  
+  <span class="title"><%= event.event_name %></span>
+  <span class="content">
+    <% if (event.space_entries.length == 1) %>
+        <%= formatted_time(event.space_entries.first.start_time) %>
+
+        (<%= event.space_entries.first.duration  %> minuten)
+    <% end %>
+
+  </span>
+  <span class="timestamp">
+    Created <%= time_ago_in_words(event.created_at) %> ago.
+  </span>
+</li>
+
+
+</li>

@@ -9,6 +9,14 @@ module ApplicationHelper
     end
   end
 
+  def formatted_date(date)
+    date.strftime("%F")
+  end     
+
+  def formatted_time(time)
+    time.strftime("%F %I:%M %p")   
+  end     
+  
 
   def btn_link_active(text, path)
     options = current_page?(path) ? { class: "btn btn-default active" } : {class: "btn btn-default"}

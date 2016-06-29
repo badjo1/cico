@@ -62,5 +62,10 @@ class SpaceEntryTest < ActiveSupport::TestCase
     assert dup_space_entry.valid?
   end
 
+  test "duration in minutes" do
+    @space_entry.end_time = @space_entry.start_time + 90.minutes
+    assert_equal 90, @space_entry.duration
+  end
+  
 
 end

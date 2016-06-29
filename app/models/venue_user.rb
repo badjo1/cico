@@ -8,6 +8,9 @@ class VenueUser < ActiveRecord::Base
   validates :user_id, presence: true
   validates :venue_id, presence: true
 
+  #make user initials, fullname accessible directly
+  delegate :fullname, :initials, to: :user, prefix: false 
+
   def self.find_most_recent_by(userid)
     venueuser = VenueUser.where("user_id = ?", userid).order(activated_at: :desc).first
   end

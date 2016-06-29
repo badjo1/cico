@@ -21,7 +21,9 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: [:show, :edit, :update]
-  resources :venue_users , only: [:index, :show, :new, :create, :destroy]
+  resources :venue_users , only: [:index, :show, :new, :create, :destroy] do
+    get 'archive', :to => 'venue_users#archive', :on => :member
+  end
   resources :spaces
   resources :space_entries, only: [:edit, :update]
   resources :events, only: [:new, :create, :destroy]

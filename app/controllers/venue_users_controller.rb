@@ -4,6 +4,19 @@ class VenueUsersController < ApplicationController
 
   def show
     @venue_user = VenueUser.find(params[:id])
+    @events = @venue_user.events.joins(:space_entries)
+      .where("space_entries.start_time >= ?", Time.zone.now.beginning_of_day)
+      .paginate(page: params[:page])
+      .includes(:space_entries).order('space_entries.start_time ASC')
+  end
+
+  def archive
+    @venue_user = VenueUser.find(params[:id])
+    @events = @venue_user.events.joins(:space_entries)
+      .where("space_entries.start_time < ?", Time.zone.now.beginning_of_day)
+      .paginate(page: params[:page])
+      .includes(:space_entries).order('space_entries.start_time DESC')
+    render 'show'
   end
 
   def index
