@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     get ':unix', :to => 'schedule#show', as: 'on', :on => :member
   end
 
+  resources :venues, only: [:new, :create]
   resources :users, only: [:show, :edit, :update]
   resources :venue_users , only: [:index, :show, :new, :create, :destroy] do
     get 'archive', :to => 'venue_users#archive', :on => :member

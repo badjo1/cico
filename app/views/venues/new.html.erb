@@ -1,0 +1,19 @@
+<% provide(:title, 'New venue') %>
+<h1>New venue</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for(@venue) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+      
+      <%= f.label :name %>
+      <%= f.text_field :name, class: 'form-control' %>
+
+      <%= f.label :subdomain %>
+      <%= f.text_field :subdomain, class: 'form-control' %>
+
+      
+      <%= f.submit "Create venue", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

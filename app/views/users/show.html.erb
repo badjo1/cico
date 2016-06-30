@@ -1,0 +1,35 @@
+<% provide(:title, @user) %>
+<div class="row">
+  <aside class="col-md-4">
+    <section class="user_info">
+      <h1>
+        <%= @user.fullname %>
+      </h1>
+    </section>
+  </aside>
+  <div class="col-md-8">
+    <header class="action-bar">
+      <h3>
+        <%= 'Venue'.pluralize(@user.venue_users.count) %>:
+      </h3>
+    </header>
+      <ul class="events">
+        <% @user.venue_users.each do |venue_user| %>
+        <li> 
+            <%= link_to venue_user.venue.name, root_path %>
+            (<%= venue_user.role %>)
+        </li>
+        <% end %>
+       </ul>
+       <hr/>
+
+
+    <% if current_user.admin? && current_user.user.email == 'bart@badjo.nl' %>
+      <%= link_to "New venue", new_venue_path, class: "btn btn-primary" %>
+    <% end %>
+
+    
+  </div>
+</div>
+
+
