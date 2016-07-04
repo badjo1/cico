@@ -8,24 +8,34 @@
     <%= form_for(@event) do |f| %>
      <%= render 'shared/error_messages', object: f.object %>
 
-<div class="btn-group form-group" data-toggle="buttons">
-  <label class="btn btn-primary active">
-    <%= f.label :appointment %>
-    <%= radio_button_tag(:event_type, :appointment, autocomplete: 'off') %>
-  </label>
-  <label class="btn btn-primary">
-    <%= f.label :workshop %>
-    <%= radio_button_tag(:event_type, :workshop, autocomplete: 'off') %>
-  </label>
-  <label class="btn btn-primary">
-    <%= f.label :training %>
-    <%= radio_button_tag(:event_type, :training, autocomplete: 'off') %>
-  </label>
-</div>
-<div class="form-group">
-  <%= f.label :name %>
-  <%= f.text_field :event_name, class: 'form-control' %>
-</div>
+    <div class="btn-group form-group" data-toggle="buttons">
+      <label class="btn btn-default">
+        <%= f.label :appointment %>
+        <%= f.radio_button(:event_type, :appointment, autocomplete: 'off') %>
+      </label>
+      <label class="btn btn-default">
+        <%= f.label :workshop %>
+        <%= f.radio_button(:event_type, :workshop, autocomplete: 'off') %>
+      </label>
+      <label class="btn btn-default">
+        <%= f.label :training %>
+        <%= f.radio_button(:event_type, :training, autocomplete: 'off') %>
+      </label>
+
+      <% if current_user.admin? %>
+        <label class="btn btn-default">
+          <%= f.label :unavailable %>
+          <%= f.radio_button(:event_type, :unavailable, autocomplete: 'off') %>
+        </label>
+      <% end %>
+      
+    </div>
+
+
+    <div class="form-group">
+      <%= f.label :name %>
+      <%= f.text_field :event_name, class: 'form-control' %>
+    </div>
 
       <%= f.fields_for :space_entries do |ff| %>
         <%= ff.label :start_time %>
@@ -47,6 +57,12 @@
         $(function () {
           $('#event_space_entries_attributes_0_start_time').datetimepicker();
           $('#event_space_entries_attributes_0_end_time').datetimepicker();
+
+          $('input:radio').each(function() {
+            this.checked = (this.value=='<%= @event.event_type %>');
+            if (this.checked)
+              $(this.parentNode).addClass('active');
+          });
         });
     </script>
         

@@ -16,7 +16,7 @@
       <ul class="events">
         <% @user.venue_users.each do |venue_user| %>
         <li> 
-            <%= link_to venue_user.venue.name, root_path %>
+            <%= link_to venue_user.venue.name, set_current_venue_user_path(venue_user) %>
             (<%= venue_user.role %>)
         </li>
         <% end %>

@@ -2,8 +2,6 @@
 
 venue_fix_1:
   name: MyString
-  subdomain: sca
 
 venue_fix_2:
   name: MyString
-  subdomain: hof

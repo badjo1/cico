@@ -20,10 +20,11 @@ Rails.application.routes.draw do
     get ':unix', :to => 'schedule#show', as: 'on', :on => :member
   end
 
-  resources :venues, only: [:new, :create]
+  resources :venues, only: [:new, :create, :current]
   resources :users, only: [:show, :edit, :update]
   resources :venue_users , only: [:index, :show, :new, :create, :destroy] do
     get 'archive', :to => 'venue_users#archive', :on => :member
+    get 'set_current', :to => 'venue_users#set_current', as: 'set_current', :on => :member
   end
   resources :spaces
   resources :space_entries, only: [:edit, :update]

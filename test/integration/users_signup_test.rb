@@ -6,7 +6,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
 #   get signup_path
 #   assert_difference 'VenueUser.count', 1 do
 #     post_via_redirect venue_users_path, venue_user: {
-#         venue: { name: "Shiatsu Centrum", subdomain: "sca" },
+#         venue: { name: "Shiatsu Centrum" },
 #         user: { first_name: "Bart", last_name: "Bloemers", email: "bart@badjo.nl"}
 #     }
 #   end

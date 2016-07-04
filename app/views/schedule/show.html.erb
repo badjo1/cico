@@ -184,15 +184,20 @@ $(document).ready(function() {
         document.location = '<%= schedule_path(@schedule) %>/space_entries/'+ event.id +'/edit?' +jQuery.param(data);
       },
       eventRender: function(event, element) {
-          // element.append( "<button type='button' class='close' >&times;</button>" );
+        <% if (@schedule=='day') %>
+        if (event.editable) {
+          element.find('.fc-time').append( "<a class='ui-icon-close' data-confirm='You sure?' rel='nofollow' data-method='delete' href="+event.url+"><span class='glyphicon glyphicon-remove-circle' aria-hidden='true'</span></a>" );
+        }
+        <% end %>
       }
 
     });
 
-  $('#submitButton').on('click', function(e){
+  $('submitButton').on('click', function(e){
     $('#eventDialog').modal('toggle');
     e.preventDefault();
   });
+
 
   function doSubmit(){
     $("#createEventModal").modal('hide');

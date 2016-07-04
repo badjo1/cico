@@ -56,6 +56,12 @@ class VenueUsersController < ApplicationController
     end
   end
 
+  def set_current
+    venue_user = VenueUser.find(params[:id])
+    venue_user.set_current
+    redirect_to root_url
+  end
+
   private
   
 end

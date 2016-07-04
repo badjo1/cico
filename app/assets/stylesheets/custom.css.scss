@@ -174,6 +174,19 @@ aside {
   }
 }
 
+.fc-event .ui-icon-close{
+  color: #8F3a39;
+  position: absolute;
+  font-size: 150%;
+  top: 8px;
+  right: 8px;
+  z-index: 9999;
+}
+
+.fc-event .ui-icon-close:hover {
+  color:#000;
+}
+
 
 /* forms */
 
@@ -220,6 +233,8 @@ input[type="submit"] {
     color: $state-danger-text;
   }
 }
+
+
 
 
 /* miscellaneous */

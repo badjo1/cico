@@ -20,10 +20,11 @@ class VenuesController < ApplicationController
     end
   end
 
+
   private
 
     def venue_params
-      params.require(:venue).permit(:name,:subdomain)
+      params.require(:venue).permit(:name)
     end
 
 end

@@ -14,7 +14,7 @@ user = User.create!(first_name:  "Bart",
               activated: true,
               activated_at: Time.zone.now)
 
-venue = Venue.create!(name: "Shiatsu Centrum Amsterdam", subdomain: "sca")
+venue = Venue.create!(name: "Shiatsu Centrum Amsterdam")
 
 
 VenueUser.create!(venue: venue, user: user, role: 'admin')

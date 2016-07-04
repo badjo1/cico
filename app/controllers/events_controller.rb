@@ -49,7 +49,7 @@ class EventsController < ApplicationController
   private
 
     def event_params
-      params.require(:event).permit(:event_name, space_entries_attributes: [:start_time, :end_time, :space_id,])
+      params.require(:event).permit(:event_type, :event_name, space_entries_attributes: [:start_time, :end_time, :space_id,])
     end
 
     def correct_event

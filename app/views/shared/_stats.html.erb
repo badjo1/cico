@@ -1,0 +1,22 @@
+<% @venue_user ||= current_user %>
+<div class="stats">
+  <a href="<%= appointments_venue_user_path(@venue_user) %>">
+    <strong id="appointments" class="stat">
+      <%= @venue_user.appointments.count %>
+    </strong>
+    appointments
+  </a>
+  <a href="<%= workshops_venue_user_path(@venue_user) %>">
+    <strong id="workshops" class="stat">
+      <%= @venue_user.workshps.count %>
+    </strong>
+    workshops
+  </a>
+  <a href="<%= training_venue_user_path(@venue_user) %>">
+    <strong id="workshops" class="stat">
+      <%= @venue_user.training.count %>
+    </strong>
+    training
+  </a>
+
+</div>

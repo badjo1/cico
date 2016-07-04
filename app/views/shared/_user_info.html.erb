@@ -1,0 +1,8 @@
+<% @venue_user ||= current_user %>
+
+<section class="user_info">
+  <h1>
+    <%= @venue_user.fullname %>
+  </h1>
+  <div><%= @venue_user.user.activated_at.strftime("Joined %B %Y") %></div>
+</section>

@@ -22,4 +22,9 @@ class VenueUser < ActiveRecord::Base
   #   self.update_columns(activeated_at: Time.current)
   # end
 
+   # set current.
+  def set_current
+    update_attribute(:activated_at, Time.zone.now)
+  end
+
 end

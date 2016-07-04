@@ -21,7 +21,7 @@ class VenuesControllerTest < ActionController::TestCase
   test "should create venue" do
     log_in_as(@user)
     assert_difference(["Venue.count", "VenueUser.count"],+1) do
-      post :create, venue: { name: "@venue.name", subdomain: "unique"}
+      post :create, venue: { name: "@venue.name"}
     end
     assert_redirected_to user_path(@user)
   end
