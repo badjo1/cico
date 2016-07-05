@@ -1,7 +1,7 @@
 <% provide(:title, 'All spaces') %>
 <h1>All spaces</h1>
 
-
+<% if @spaces.any? %>
 <table class="table table-responsive">
   <thead>
     <tr>
@@ -20,6 +20,7 @@
     <% end %>
   </tbody>
 </table>
+<% end %>
 
 <br>
 
