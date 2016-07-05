@@ -11,7 +11,7 @@ class VenuesController < ApplicationController
         @venue.venue_users.create!(
           user_id: current_user.user_id,
           role: VenueUser::ADMIN_ROLE_NAME,
-          activated_at: Time.zone.now)
+          visit_on: Time.zone.now)
   
       flash[:success] = "Venue succesfull added"
       redirect_to user_url( current_user.user )

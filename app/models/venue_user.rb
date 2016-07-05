@@ -12,7 +12,7 @@ class VenueUser < ActiveRecord::Base
   delegate :fullname, :initials, to: :user, prefix: false 
 
   def self.find_most_recent_by(userid)
-    venueuser = VenueUser.where("user_id = ?", userid).order(activated_at: :desc).first
+    venueuser = VenueUser.where("user_id = ?", userid).order(visit_on: :desc).first
   end
 
   def admin?
@@ -24,7 +24,7 @@ class VenueUser < ActiveRecord::Base
 
    # set current.
   def set_current
-    update_attribute(:activated_at, Time.zone.now)
+    update_attribute(:visit_on, Time.zone.now)
   end
 
 end

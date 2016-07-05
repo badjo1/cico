@@ -17,4 +17,4 @@ user = User.create!(first_name:  "Bart",
 venue = Venue.create!(name: "Shiatsu Centrum Amsterdam")
 
 
-VenueUser.create!(venue: venue, user: user, role: 'admin')
+VenueUser.create!(venue: venue, user: user, role: 'admin', visit_on: Time.zone.now)
