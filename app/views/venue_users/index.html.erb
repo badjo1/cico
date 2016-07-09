@@ -5,7 +5,11 @@
 <ul class="users">
   <% @venue_users.each do |venue_user| %>
     <li>
-      <%= link_to venue_user.user.fullname, venue_user %>
+      <% if venue_user.user.activated? %>
+        <%= link_to venue_user.user.fullname, venue_user %>
+      <% else %>
+        <%= venue_user.user.fullname %> not active yet
+      <% end %>
 
       <% if current_user.admin? && !current_user?(venue_user.user) %>
         | <%= link_to "delete", venue_user, method: :delete, data: { confirm: "You sure?" } %>

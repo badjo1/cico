@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160704215354) do
+ActiveRecord::Schema.define(version: 20160705204709) do
 
   create_table "events", force: :cascade do |t|
     t.string   "event_name"
@@ -62,10 +62,14 @@ ActiveRecord::Schema.define(version: 20160704215354) do
   create_table "venue_users", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "venue_id"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.datetime "visit_on"
-    t.string   "role",       default: "user"
+    t.string   "role",              default: "user"
+    t.string   "activation_digest"
+    t.boolean  "activated",         default: false
+    t.datetime "activated_at"
+    t.datetime "joined_in"
   end
 
   add_index "venue_users", ["user_id", "venue_id"], name: "index_venue_users_on_user_id_and_venue_id", unique: true

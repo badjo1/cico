@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   resources :spaces
   resources :space_entries, only: [:edit, :update]
   resources :events, only: [:new, :create, :destroy]
-  resources :account_activations, only: [:edit]
+  resources :account_activations, only: [:edit, :update]
   resources :password_resets,     only: [:new, :create, :edit, :update]
   
 

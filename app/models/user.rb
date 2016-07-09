@@ -14,9 +14,13 @@ class User < ActiveRecord::Base
                     uniqueness: { case_sensitive: false }
 
   has_secure_password(validations: false) #https://github.com/rails/rails/blob/ef5d85709d346e55827e88f53430a2cbe1e5fb9e/activemodel/lib/active_model/secure_password.rb#L51
-  with_options if: :activated? do |active_user|
-     active_user.validates_confirmation_of :password
+  with_options if: :needs_password_validation? do |active_user|
      active_user.validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+     active_user.validates_confirmation_of :password
+  end
+
+  def needs_password_validation?
+    activated? || activation_digest.present?
   end
   
   def fullname

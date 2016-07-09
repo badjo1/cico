@@ -50,7 +50,7 @@ class VenueUsersController < ApplicationController
     else
       user = venue_user.user
       venue_user.destroy
-      user.destroy if (user.venue_users.exists?)
+      user.destroy if (user.venue_users.empty?)
       flash[:success] = "User deleted"
       redirect_to venue_users_url
     end
