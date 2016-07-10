@@ -6,7 +6,7 @@
   <% @venue_users.each do |venue_user| %>
     <li>
       <% if venue_user.user.activated? %>
-        <%= link_to venue_user.user.fullname, venue_user %>
+        <%= link_to venue_user.user.fullname, planned_events_venue_user_path(venue_user) %>
       <% else %>
         <%= venue_user.user.fullname %> not active yet
       <% end %>

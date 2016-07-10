@@ -6,4 +6,5 @@ class Event < ActiveRecord::Base
 
   validates :venue_user_id, presence: true
   validates :event_name,  presence: true, length: { maximum: 255 }
+  
 end

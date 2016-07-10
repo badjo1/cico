@@ -2,20 +2,19 @@ class VenueUsersController < ApplicationController
   before_action :logged_in_user, only: [:index, :new, :create, :destroy]
   before_action :admin_user,     only: [:destroy, :new, :create]
 
-  def show
+  def planned_events
     @venue_user = VenueUser.find(params[:id])
-    @events = @venue_user.events.joins(:space_entries)
-      .where("space_entries.start_time >= ?", Time.zone.now.beginning_of_day)
-      .paginate(page: params[:page])
-      .includes(:space_entries).order('space_entries.start_time ASC')
+    @events = @venue_user.planned_events.paginate(page: params[:page])
+    render 'show'
   end
 
-  def archive
+  def archived_events
     @venue_user = VenueUser.find(params[:id])
-    @events = @venue_user.events.joins(:space_entries)
-      .where("space_entries.start_time < ?", Time.zone.now.beginning_of_day)
-      .paginate(page: params[:page])
-      .includes(:space_entries).order('space_entries.start_time DESC')
+    @events = @venue_user.archived_events.paginate(page: params[:page])
+    # @events = @venue_user.events.joins(:space_entries)
+    #   .where("space_entries.start_time < ?", Time.zone.now.beginning_of_day)
+    #   .paginate(page: params[:page])
+    #   .includes(:space_entries).order('space_entries.start_time DESC')
     render 'show'
   end
 

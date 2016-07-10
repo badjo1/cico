@@ -12,10 +12,9 @@ class SpaceEntriesController < ApplicationController
 
   def update
     @schedule = params[:schedule_id]
-
     @space_entry = SpaceEntry.find(params[:id])
     if @space_entry.update_attributes(space_entry_params)
-      flash[:success] = "Appointment updated"
+      flash[:success] = "#{@space_entry.event.event_type} updated"
       redirect_to on_schedule_path(@schedule, @space_entry.start_time.to_i)
     else
       render 'edit'

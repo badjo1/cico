@@ -22,8 +22,9 @@ Rails.application.routes.draw do
 
   resources :venues, only: [:new, :create, :current]
   resources :users, only: [:show, :edit, :update]
-  resources :venue_users , only: [:index, :show, :new, :create, :destroy] do
-    get 'archive', :to => 'venue_users#archive', :on => :member
+  resources :venue_users , only: [:index, :new, :create, :destroy] do
+    get 'archived_events', :to => 'venue_users#archived_events', :on => :member
+    get 'planned_events', :to => 'venue_users#planned_events', :on => :member
     get 'set_current', :to => 'venue_users#set_current', as: 'set_current', :on => :member
   end
   resources :spaces

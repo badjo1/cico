@@ -1,6 +1,10 @@
 <li id="event-<%= event.id %>">
   
-  <span class="title"><%= event.event_name %></span>
+  <span class="title">
+    <%= event.event_type %>
+    <%= event.event_name %>
+    
+  </span>
   <span class="content">
     <% if (event.space_entries.length == 1) %>
         <% space_entry = event.space_entries.first %>

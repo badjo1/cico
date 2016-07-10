@@ -2,7 +2,7 @@ class VenueUser < ActiveRecord::Base
   ADMIN_ROLE_NAME = 'admin'
   belongs_to :user
   belongs_to :venue
-  has_many :events
+  has_many :events, -> { order(created_at: :desc) }
   
   
   validates :user_id, presence: true
@@ -11,8 +11,33 @@ class VenueUser < ActiveRecord::Base
   #make user initials, fullname accessible directly
   delegate :fullname, :initials, to: :user, prefix: false 
 
+
   def self.find_most_recent_by(userid)
     venueuser = VenueUser.where("user_id = ?", userid).order(visit_on: :desc).first
+  end
+
+  def planned_events
+    events.joins(:space_entries)
+    .where("space_entries.start_time >= ?", Time.zone.now.beginning_of_day)
+    .includes(:space_entries).order('space_entries.start_time ASC')
+  end
+
+  def archived_events
+    events.joins(:space_entries)
+    .where("space_entries.start_time < ?", Time.zone.now.beginning_of_day)
+    .includes(:space_entries).order('space_entries.start_time DESC')
+  end
+
+  def appointments
+    archived_events.where(event_type: :appointment)
+  end
+
+  def workshops
+    archived_events.where(event_type: :workshop)
+  end
+
+  def training
+    archived_events.where(event_type: :training)
   end
 
   def admin?
