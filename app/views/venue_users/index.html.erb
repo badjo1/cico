@@ -1,4 +1,5 @@
 <% provide(:title, 'All users') %>
+
 <h1>All users</h1>
 
 <%= will_paginate %>
@@ -20,4 +21,8 @@
 </ul>
 <%= will_paginate %>
 
-<%= link_to "New user", new_venue_user_path, class: "btn btn-primary" %>
+<% if current_user.admin?  %>
+  <div>
+  <%= link_to "Invite an user", new_venue_user_path, class: "btn btn-primary" %>
+  </div>
+<% end %>
