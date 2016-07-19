@@ -1,18 +1,18 @@
 <li id="event-<%= event.id %>">
   
   <span class="title">
-    <%= event.event_type %>
-    <%= event.event_name %>
-    
+    <%= link_to event.event_name, schedule_event_path("day",event) %>
   </span>
   <span class="content">
-    <% if (event.space_entries.length == 1) %>
-        <% space_entry = event.space_entries.first %>
-        <%= link_to formatted_time(space_entry.start_time), on_schedule_path('day', space_entry.start_time.to_i) %>
+      <% space_entry = event.space_entries.first %>
+      <%= link_to formatted_period(space_entry.start_time, space_entry.end_time), on_schedule_path('day', space_entry.start_time.to_i) %>
 
-        (<%= event.space_entries.first.duration  %> minuten)
-    <% end %>
+      (<%= event.space_entries.first.duration  %> minuten)
 
+  </span>
+  <span class="timestamp">
+    <%= event.event_type %> by
+          <%= current_user.fullname %>  
   </span>
   <span class="timestamp">
     Created <%= time_ago_in_words(event.created_at) %> ago.

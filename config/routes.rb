@@ -28,11 +28,11 @@ Rails.application.routes.draw do
     get 'set_current', :to => 'venue_users#set_current', as: 'set_current', :on => :member
   end
   resources :spaces
-  resources :space_entries, only: [:edit, :update]
-  resources :events, only: [:new, :create, :destroy]
+  resources :events, only: [:new, :create, :destroy, :edit, :update] do
+    resources :space_entries, only: [:new, :create]
+  end
+  resources :space_entries, only: [:edit, :update, :destroy]
   resources :account_activations, only: [:edit, :update]
   resources :password_resets,     only: [:new, :create, :edit, :update]
   
-
-
 end

@@ -10,13 +10,20 @@ module ApplicationHelper
   end
 
   def formatted_date(date)
-    date.strftime("%F")
+    date.strftime("%a, %e %B %Y")
   end     
 
-  def formatted_time(time)
-    time.strftime("%F %I:%M %p")   
+  def formatted_datetime(datetime)
+    datetime.strftime("%F %I:%M %k:%M")   
   end     
   
+  def formatted_time(time)
+    time.strftime("%k:%M")   
+  end     
+
+  def formatted_period(start_time,end_time)
+    "#{formatted_date(start_time)} #{formatted_time(start_time)} - #{formatted_time(end_time)}"      
+  end  
 
   def btn_link_active(text, path)
     options = current_page?(path) ? { class: "btn btn-default active" } : {class: "btn btn-default"}

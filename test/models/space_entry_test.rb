@@ -44,6 +44,11 @@ class SpaceEntryTest < ActiveSupport::TestCase
     assert_not @space_entry.valid?
   end
 
+  test "end_time validation should reject if it is not on the same day" do
+    @space_entry.end_time = @space_entry.start_time + 1.day
+    assert_not @space_entry.valid?
+  end
+
   test "Start time can not in another slot" do
     assert @space_entry.valid?
 

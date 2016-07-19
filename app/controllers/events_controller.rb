@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
-  before_action :logged_in_user, only: [:show, :new, :create, :destroy]
-  before_action :correct_event, only: [:destroy]
+  before_action :logged_in_user, only: [:show, :new, :create, :edit, :update, :destroy]
+  before_action :correct_event, only: [:edit, :update, :destroy]
 
   def show
     @schedule = params[:schedule_id]
@@ -34,6 +34,18 @@ class EventsController < ApplicationController
       redirect_to on_schedule_path('day',@space_entry.start_time.to_i)
     else
       render 'new'
+    end
+  end
+
+  def edit
+  end
+
+  def update
+   if @event.update_attributes(event_params)
+      flash[:success] = "Updated #{@event.event_type}"
+      redirect_to schedule_event_path("day",@event)
+    else
+      render :edit
     end
   end
 

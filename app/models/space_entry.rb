@@ -8,6 +8,7 @@ class SpaceEntry < ActiveRecord::Base
   
   validates_datetime :start_time
   validates_datetime :end_time, :after => :start_time
+  validates_date :end_time, :is_at => :start_time , :is_at_message => "End date must be on start date"
 
   validate :has_not_double_entry
 
