@@ -10,5 +10,9 @@
       <%= render @events %>
     </ol>
   <% else %>
-    no events scheduled
+    <p>no events scheduled.</p>
+    <% if (@venue_user==current_user) %>
+      <p>You can book an space through click in the agenda on time you needed.</p>
+      <%= link_to "book now!",schedule_path("day"), class: "btn btn-primary" %>
+    <% end %>
   <% end %>

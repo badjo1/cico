@@ -2,8 +2,8 @@ class VenueUser < ActiveRecord::Base
   ADMIN_ROLE_NAME = 'admin'
   belongs_to :user
   belongs_to :venue
-  has_many :events, -> { order(created_at: :desc) }
-  has_many :space_entries, through: :events  
+  has_many :events
+  has_many :space_entries, through: :events
   
   validates :user_id, presence: true
   validates :venue_id, presence: true

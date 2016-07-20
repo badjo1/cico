@@ -1,8 +1,6 @@
 class SpaceEntry < ActiveRecord::Base
   belongs_to :space
   belongs_to :event, inverse_of: :space_entries
-  default_scope -> { order(start_time: :asc) }
-
   #validates :event_id, presence: true
   validates :space_id, presence: true
   
