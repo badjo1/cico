@@ -4,18 +4,10 @@
     <%= link_to event.event_name, schedule_event_path("day",event) %>
   </span>
   <span class="content">
-      <% space_entry = event.space_entries.first %>
-      <%= link_to formatted_period(space_entry.start_time, space_entry.end_time), on_schedule_path('day', space_entry.start_time.to_i) %>
-
-      (<%= event.space_entries.first.duration  %> minuten)
-
+    NOT USED
   </span>
   <span class="timestamp">
-    <%= event.event_type %> by
-          <%= current_user.fullname %>  
-  </span>
-  <span class="timestamp">
-    Created <%= time_ago_in_words(event.created_at) %> ago.
+    <%= event.event_type %> created  <%= time_ago_in_words(event.created_at) %> ago.
   </span>
 </li>
 

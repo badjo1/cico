@@ -3,10 +3,11 @@ class VenueUser < ActiveRecord::Base
   belongs_to :user
   belongs_to :venue
   has_many :events, -> { order(created_at: :desc) }
-  
+  has_many :space_entries, through: :events  
   
   validates :user_id, presence: true
   validates :venue_id, presence: true
+  validates_uniqueness_of :user_id, :scope => :venue_id
 
   #make user initials, fullname accessible directly
   delegate :fullname, :initials, to: :user, prefix: false 
@@ -17,16 +18,21 @@ class VenueUser < ActiveRecord::Base
   end
 
   def planned_events
-    events.joins(:space_entries)
-    .where("space_entries.start_time >= ?", Time.zone.now.beginning_of_day)
-    .includes(:space_entries).order('space_entries.start_time ASC')
+    space_entries.where("space_entries.start_time >= ?", Time.zone.now.beginning_of_day)
+    .includes(:event).order('space_entries.start_time ASC')
   end
 
   def archived_events
-    events.joins(:space_entries)
+    space_entries
     .where("space_entries.start_time < ?", Time.zone.now.beginning_of_day)
-    .includes(:space_entries).order('space_entries.start_time DESC')
+    .includes(:event).order('space_entries.start_time DESC')
   end
+
+  # def archived_events
+  #   events.joins(:space_entries)
+  #   .where("space_entries.start_time < ?", Time.zone.now.beginning_of_day)
+  #   .includes(:space_entries).order('space_entries.start_time DESC')
+  # end
 
   def appointments
     archived_events.where(event_type: :appointment)

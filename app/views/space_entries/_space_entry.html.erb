@@ -1,0 +1,17 @@
+<li id="space-entry-<%= space_entry.id %>">
+  
+  <span class="title">
+    <%= link_to space_entry.event.event_name, schedule_event_path("day",space_entry.event) %>
+  </span>
+  <span class="content">
+      <%= link_to formatted_period(space_entry.start_time, space_entry.end_time), on_schedule_path('day', space_entry.start_time.to_i) %>
+
+      (<%= space_entry.duration  %> minuten)
+  </span>
+  <span class="timestamp">
+    <%= space_entry.event.event_type %> created  <%= time_ago_in_words(space_entry.event.created_at) %> ago.
+  </span>
+</li>
+
+
+</li>

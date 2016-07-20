@@ -29,14 +29,28 @@ class VenueUsersController < ApplicationController
 
   def create
     user_params = params.require(:user).permit(:first_name, :last_name, :email )
-    @user = User.new(user_params)
-    if @user.save
-      VenueUser.create!(user: @user, venue: current_user.venue)
-      @user.send_activation_email
-      flash[:success] = "Send email to user to activate the account"
-      redirect_to venue_users_url
+    existing_user = User.find_by(email: user_params[:email].downcase)
+    if existing_user.present?
+      #user already exists
+      venue_user = VenueUser.new(user: existing_user, venue: current_user.venue)
+      if venue_user.save
+        flash[:success] = "User is invited to use this venue"
+        redirect_to venue_users_url
+      else
+        flash[:danger] = "User '#{existing_user.fullname}' has already access to this venue"
+        redirect_to venue_users_url
+      end
     else
-      render 'new'
+      #new user
+      @user = User.new(user_params)
+      if @user.save
+        VenueUser.create!(user: @user, venue: current_user.venue) #no chance on duplicate venues 
+        @user.send_activation_email
+        flash[:success] = "Send email to user to activate the account"
+        redirect_to venue_users_url
+      else
+        render 'new'
+      end
     end
   end
 

@@ -15,7 +15,6 @@ class VenueTest < ActiveSupport::TestCase
     assert_not @venue.valid?
   end
 
-
   test "name should not be too long" do
     @venue.name = "a" * 51
     assert_not @venue.valid?
