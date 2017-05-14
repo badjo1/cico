@@ -60,16 +60,15 @@ ActiveRecord::Schema.define(version: 20160717200752) do
     t.datetime "reset_sent_at"
   end
 
+  add_index "users", ["email"], name: "index_users_on_email", unique: true
+
   create_table "venue_users", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "venue_id"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.datetime "visit_on"
-    t.string   "role",              default: "user"
-    t.string   "activation_digest"
-    t.boolean  "activated",         default: false
-    t.datetime "activated_at"
+    t.string   "role",       default: "user"
     t.datetime "joined_in"
   end
 
