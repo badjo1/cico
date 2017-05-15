@@ -66,6 +66,6 @@ class EventsController < ApplicationController
 
     def correct_event
       @event = Event.find(params[:id])
-      redirect_to(root_url) unless current_venue_user_id?(@event.venue_user_id)
+      redirect_to(root_url) unless current_user.admin? || current_venue_user_id?(@event.venue_user_id)
     end
 end
