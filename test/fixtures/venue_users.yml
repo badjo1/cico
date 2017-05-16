@@ -11,6 +11,11 @@ venue_user_fix_2:
   visit_on: <%= 10.minutes.ago %>
   role: <%=  VenueUser::ADMIN_ROLE_NAME %>
 
+venue_user_fix_other:
+  user: user_fix_other
+  venue: venue_fix_1
+  visit_on: <%= Time.zone.now %>
+  
 venue_user_latest:
   user: user_fix_1
   venue: venue_fix_2

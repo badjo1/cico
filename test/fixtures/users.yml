@@ -15,3 +15,11 @@ user_fix_2:
   password_digest: <%= User.digest('password') %>
   activated: true
   activated_at: <%=Time.zone.now%>
+
+user_fix_other:
+  first_name: Test
+  last_name: Tester
+  email: test@badjo.nl
+  password_digest: <%= User.digest('password') %>
+  activated: true
+  activated_at: <%=Time.zone.now%>

@@ -4,7 +4,7 @@ class EventsControllerTest < ActionController::TestCase
 
   def setup
     @user = users(:user_fix_1)
-    @other_user = users(:user_fix_2)
+    @other_user = users(:user_fix_other)
     @event = events(:event_fix_1)
   end
  
@@ -48,6 +48,16 @@ class EventsControllerTest < ActionController::TestCase
 
   test "should destroy event" do
     log_in_as(@user)
+    start_at = @event.space_entries.first.start_time
+    assert_difference(["Event.count", "SpaceEntry.count"], -1) do
+      delete :destroy, id: @event, schedule_id: 'day'
+    end
+    assert_redirected_to on_schedule_path('day', start_at.to_i )
+  end
+
+  test "should destroy event when logged in as admin" do
+    @admin_user = users(:user_fix_2)
+    log_in_as(@admin_user)
     start_at = @event.space_entries.first.start_time
     assert_difference(["Event.count", "SpaceEntry.count"], -1) do
       delete :destroy, id: @event, schedule_id: 'day'
