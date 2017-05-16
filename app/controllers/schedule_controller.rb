@@ -2,7 +2,7 @@ class ScheduleController < ApplicationController
   before_action :logged_in_user
 
   def show
-    @selected_date = (params[:unix]) ? Time.at( params[:unix].to_i) : Time.zone.now
+    @selected_date = (params[:unix]) ? Time.zone.at( params[:unix].to_i) : Time.zone.now
     @schedule = params[:id]
     current_venue = current_user.venue
     @spaces = current_venue.spaces

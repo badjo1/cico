@@ -14,7 +14,6 @@
         <% end %>
       </div>
       <%= link_to "today", on_schedule_path(@schedule, Time.zone.now.to_i), class: "btn btn-default" %>
-  
     </div>
     
     
@@ -27,8 +26,9 @@
            format: "D MMMM YYYY"
           });
           $("#datepicker4").on("dp.change",function (e) {
-            m=e.date.unix();
-            document.location = "<%= schedule_path(@schedule) %>/"+ m;
+            //convert locale date to utc date
+            var selected_utc_date = moment.utc([e.date.year(),e.date.month(),e.date.date()])
+            document.location = "<%= schedule_path(@schedule) %>/"+ selected_utc_date.unix();
           });
         });
       </script>
