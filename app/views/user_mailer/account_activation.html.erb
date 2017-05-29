@@ -3,14 +3,16 @@
 <p>Beste <%= @user.fullname %>,</p>
 
 <p>
-Via deze e-mail bevestigen we je registratie op het SHIATSU platform 
-Klik op de onderstaande link om je registratie te bevestigen;
+Via deze e-mail nodigen we je uit om deel te nemen aan het online platform van Shiatsu Centrum Amsterdam. Hiermee krijg je toegang tot de gedeelde agenda.
+Klik op de onderstaande link om je registratie te voltooien. 
 </p>
 
-<%= link_to "Activate", edit_account_activation_url(@user.activation_token, email: @user.email) %>
+<%= link_to "Registeren", edit_account_activation_url(@user.activation_token, email: @user.email) %>
 
 
-<p>Namens het team van shiatsu platform NL,
+<p>Namens Shiatsu Centrum Amsterdam,
 <br><br>
 Bart Bloemers
 </p>
+
+
