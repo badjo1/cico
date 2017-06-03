@@ -31,7 +31,7 @@ class EventsController < ApplicationController
     @event = Event.new(event_params)
     @event.venue_user = current_user 
     if (current_user.admin?)
-      selected_user = params[:event][:venue_user_id]
+      selected_user = VenueUser.find(params[:event][:venue_user_id])
       @event.venue_user = selected_user
     end
     @space_entry = @event.space_entries.first

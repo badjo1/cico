@@ -130,7 +130,7 @@ $(document).ready(function() {
     start: '<%= entry.start_time.strftime("%Y-%m-%d %H:%M") %>',
     end: '<%= entry.end_time.strftime("%Y-%m-%d %H:%M") %>',
     resourceId: '<%= entry.space_id %>',
-    <% if (current_venue_user_id?(entry.event.venue_user_id)) %>
+    <% if (current_venue_user_id?(entry.event.venue_user_id)||current_user.admin?) %>
       url: '<%= schedule_event_path(@schedule, entry.event_id) %>' ,
       editable: true,
       color: '#EAD7D7',   

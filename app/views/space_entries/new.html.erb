@@ -21,7 +21,7 @@
         <%= f.select(:space_id, current_user.venue.spaces.collect {|p| [ p.name, p.id ] }, {include_blank: true}, {class: 'form-control'})%>
             
 
-      <%= f.submit "Add appointment", class: "btn btn-primary" %>
+      <%= f.submit "Add", class: "btn btn-primary" %>
 
     <% end %>
 
