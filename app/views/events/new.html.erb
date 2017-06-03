@@ -49,6 +49,14 @@
         <%= ff.select(:space_id, current_user.venue.spaces.collect {|p| [ p.name, p.id ] }, {include_blank: true}, {class: 'form-control'})%>
 
       <% end %>  
+
+      <% if current_user.admin? %>
+        <%= f.label :member %>
+         <%= f.select(:venue_user_id, current_user.venue.active_members.collect {|p| [ p.fullname, p.id ] }, {include_blank: true}, {class: 'form-control'})%>
+      <% end %>
+
+
+
       <%= f.submit "Book", class: "btn btn-primary" %>
 
     <% end %>

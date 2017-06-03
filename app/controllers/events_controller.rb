@@ -13,11 +13,13 @@ class EventsController < ApplicationController
     end_unix = params[:end_time]
     space_id = params[:space_id]
 
-    @event = Event.new(event_name: "")
+    @event = Event.new(event_name: "shiatsu")
+    @event.venue_user = current_user if current_user.admin?
     @space_entry = @event.space_entries.build
     @space_entry.start_time = Time.at( start_unix.to_i )  unless start_unix.nil?
     @space_entry.end_time = Time.at( end_unix.to_i ) unless end_unix.nil?
     @space_entry.space_id = space_id.to_i
+
     
     respond_to do |format|
       format.html #new.html.erb
@@ -28,6 +30,10 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     @event.venue_user = current_user 
+    if (current_user.admin?)
+      selected_user = params[:event][:venue_user_id]
+      @event.venue_user = selected_user
+    end
     @space_entry = @event.space_entries.first
     if @event.save
       flash[:success] = "#{@event.event_type} added"
@@ -61,7 +67,7 @@ class EventsController < ApplicationController
   private
 
     def event_params
-      params.require(:event).permit(:event_type, :event_name, space_entries_attributes: [:start_time, :end_time, :space_id,])
+      params.require(:event).permit(:event_type, :event_name, :venue_user_id, space_entries_attributes: [:start_time, :end_time, :space_id,])
     end
 
     def correct_event
