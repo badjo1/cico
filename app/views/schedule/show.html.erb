@@ -114,8 +114,10 @@ $(document).ready(function() {
       slotDuration: '00:30:00',
       slotLabelInterval: '01:00:00',
       snapDuration: '01:30:00',
+      timeFormat: 'H:mm',
+      slotLabelFormat: 'Hu(:mm)',     
       minTime: '08:00:00',
-      maxTime: '22:30:00',
+      maxTime: '22:00:00',
       allDaySlot: false,
       header: {
         left: '',
@@ -127,8 +129,8 @@ $(document).ready(function() {
 <% @space_entries.each do |entry| %>
   { id: '<%= entry.id %>', 
     title: '<%= entry.event.venue_user.user.initials %>: <%= entry.event.event_name %>', 
-    start: '<%= entry.start_time.strftime("%Y-%m-%d %H:%M") %>',
-    end: '<%= entry.end_time.strftime("%Y-%m-%d %H:%M") %>',
+    start: '<%= entry.start_time.strftime("%Y-%m-%d %R") %>',
+    end: '<%= entry.end_time.strftime("%Y-%m-%d %R") %>',
     resourceId: '<%= entry.space_id %>',
     <% if (current_venue_user_id?(entry.event.venue_user_id)||current_user.admin?) %>
       url: '<%= schedule_event_path(@schedule, entry.event_id) %>' ,

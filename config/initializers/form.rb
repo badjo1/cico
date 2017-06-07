@@ -12,9 +12,9 @@ module ActionView
 
       def datetime_select(method, options = {}, html_options = {})
         existing_time = @object.send(method) 
-        formatted_time = existing_time.strftime("%F %I:%M %p") if existing_time.present?
+        formatted_time = existing_time.strftime("%F %R") if existing_time.present?
         @template.content_tag(:div, :class => "input-group") do    
-          text_field(method, :value => formatted_time, :class => "form-control datetimepicker", :"data-date-format" => "YYYY-MM-DD hh:mm A") +
+          text_field(method, :value => formatted_time, :class => "form-control datetimepicker", :"data-date-format" => "YYYY-MM-DD HH:mm") +
           @template.content_tag(:span, @template.content_tag(:span, "", :class => "glyphicon glyphicon-calendar") ,:class => "input-group-addon")
         end
       end
