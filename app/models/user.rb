@@ -2,9 +2,6 @@ class User < ActiveRecord::Base
   has_many :venue_users, -> { includes :venue }
   attr_accessor :remember_token, :activation_token, :reset_token
   before_save   :downcase_email
-  before_create :create_activation_digest
-
-  before_save   :downcase_email
 
   validates :first_name,  presence: true, length: { maximum: 50 }
   validates :last_name,  presence: true, length: { maximum: 50 }
@@ -75,6 +72,8 @@ class User < ActiveRecord::Base
 
   # Sends activation email.
   def send_activation_email
+    update_attribute(:activation_token, User.new_token)
+    update_attribute(:activation_digest, User.digest(activation_token))
     UserMailer.account_activation(self).deliver_now
   end
 
@@ -96,6 +95,13 @@ class User < ActiveRecord::Base
     reset_sent_at < 2.hours.ago
   end
 
+  # Creates and assigns the activation token and digest.
+  #def create_activation_digest
+    #self.activation_token  = User.new_token
+    #self.activation_digest = User.digest(activation_token)
+  #end
+
+
   private
 
     # Converts email to all lower-case.
@@ -103,10 +109,5 @@ class User < ActiveRecord::Base
       self.email = email.downcase
     end
 
-        # Creates and assigns the activation token and digest.
-    def create_activation_digest
-      self.activation_token  = User.new_token
-      self.activation_digest = User.digest(activation_token)
-    end
 
 end

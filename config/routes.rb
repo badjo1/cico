@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     get 'archived_events', :to => 'venue_users#archived_events', :on => :member
     get 'planned_events', :to => 'venue_users#planned_events', :on => :member
     get 'set_current', :to => 'venue_users#set_current', as: 'set_current', :on => :member
+    resources :account_activations, only: [:new]
   end
   resources :spaces
   resources :events, only: [:new, :create, :destroy, :edit, :update] do

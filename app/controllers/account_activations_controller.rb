@@ -1,6 +1,18 @@
 class AccountActivationsController < ApplicationController
   before_action :correct_activation, only: [:edit, :update]
 
+
+  def new  
+    @VenueUser = VenueUser.find(params[:venue_user_id])
+    if (current_user.admin? && @VenueUser && !@VenueUser.user.activated?)
+      @VenueUser.user.send_activation_email
+      flash[:success] = "Activation started and invite user by mail"
+    else
+     flash[:danger] = "Invalid activation"
+    end
+    redirect_to venue_users_url
+  end    
+
   def edit
   end
 

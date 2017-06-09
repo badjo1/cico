@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails',        '4.2.6'
+gem 'rails',        '4.2.8'
 gem 'bcrypt',               '3.1.7'
 gem 'will_paginate',           '3.0.7'
 gem 'validates_timeliness', '~> 4.0'
