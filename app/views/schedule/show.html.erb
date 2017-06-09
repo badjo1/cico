@@ -1,15 +1,20 @@
 <% provide(:title, 'Book a space') %>
+<% @next_interval = (@schedule=='week')?7:1 %>
+
 <h1>Book a space</h1>
 
 <div class="container">
   <div class="row">
     <div class="col-md-4">    
       <div class="btn-group" role="group">
-        <%= link_to on_schedule_path(@schedule, (@selected_date-1.day).to_i), class: "btn btn-default" do %>
+        <%= link_to on_schedule_path(@schedule, (@selected_date-@next_interval.day).to_i), class: "btn btn-default" do %>
           <span class="glyphicon glyphicon-chevron-left"></span>
         <% end %>
         
-        <%= link_to on_schedule_path(@schedule, (@selected_date+1.day).to_i), class: "btn btn-default" do %>
+        <%= btn_link_active "day", on_schedule_path("day", @selected_date.to_i) %>
+        <%= btn_link_active "week", on_schedule_path("week", @selected_date.to_i) %>
+  
+        <%= link_to on_schedule_path(@schedule, (@selected_date+@next_interval.day).to_i), class: "btn btn-default" do %>
           <span class="glyphicon glyphicon-chevron-right"></span>
         <% end %>
       </div>
@@ -35,10 +40,6 @@
     </div>
     
     <div class="col-md-4">
-      <div class="btn-group" role="group">
-        <%= btn_link_active "day", on_schedule_path("day", @selected_date.to_i) %>
-        <%= btn_link_active "week", on_schedule_path("week", @selected_date.to_i) %>
-      </div>
     </div>
   </div>
 
