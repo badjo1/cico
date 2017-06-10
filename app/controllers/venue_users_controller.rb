@@ -20,7 +20,7 @@ class VenueUsersController < ApplicationController
 
   def index
     venue_id = current_user.venue_id
-    @venue_users = VenueUser.where(venue_id: venue_id).paginate(page: params[:page], per_page: 5)
+    @venue_users = VenueUser.where(venue_id: venue_id).paginate(page: params[:page], per_page: 50)
   end
 
   def new
