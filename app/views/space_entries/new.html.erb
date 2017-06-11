@@ -1,7 +1,9 @@
-<% provide(:title, 'Book additional space') %>
+<% provide(:title, 'Book additional date') %>
 
-<h1>Book additional data</h1>
-
+<h1>
+  Book additional date for <%= @event.event_name %> 
+  <small>by <%= @event.venue_user.fullname %></small>
+</h1>
 
 
 <div class="row">

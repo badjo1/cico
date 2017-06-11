@@ -1,5 +1,8 @@
 <% provide(:title, "Edit space Entry") %>
-<h1><%= "Update #{@space_entry.event.event_type}" %></h1>
+<h1>
+  <%= "Change #{@space_entry.event.event_name}" %>
+  <small><%= "by #{@space_entry.event.venue_user.fullname}" %></small>
+</h1>
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
