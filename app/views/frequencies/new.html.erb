@@ -1,0 +1,54 @@
+<% provide(:title, 'Book additional date') %>
+
+
+<h1>
+  Repeat <%= @event.event_name %> 
+  <small>by <%= @event.venue_user.fullname %></small>
+</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+      <%= formatted_period(@last_entry.start_time, @last_entry.end_time) %> 
+
+
+      <% if @event.errors.any? %>
+        <div id="error_explanation">
+          <div class="alert alert-danger">
+            The form contains <%= pluralize(@event.errors.count, "error") %>.
+          </div>
+          <ul>
+          <% @event.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+
+          <% @event.space_entries.each do |space_entry| %>
+            <% if space_entry.errors.any? %>
+              <li>
+                <%= link_to formatted_period(space_entry.start_time, space_entry.end_time), on_schedule_path('day', space_entry.start_time.to_i) %></li>
+            <% end %>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+
+     <%= form_for(@event, url: event_frequencies_path(@event),  method: :post) do |f| %>
+        
+        <%= f.label :repeat_stop_date %>
+        <%= f.date_select :repeat_end_date %>
+
+
+      <%= f.submit "Repeat", class: "btn btn-primary" %>
+
+    <% end %>
+
+    <script type="text/javascript">
+       $('#event_repeat_end_date').datetimepicker({
+           format: "D MMMM YYYY"
+        });
+    </script>
+
+  </div>
+</div>
+
+<%= link_to "back to #{@event.event_type}", schedule_event_path('day',@event) %>
