@@ -29,8 +29,10 @@ Rails.application.routes.draw do
     resources :account_activations, only: [:new]
   end
   resources :spaces
+
   resources :events, only: [:new, :create, :destroy, :edit, :update] do
     resources :space_entries, only: [:new, :create]
+    resources :frequencies, only: [:new, :create]
   end
   resources :space_entries, only: [:edit, :update, :destroy]
   resources :account_activations, only: [:edit, :update]

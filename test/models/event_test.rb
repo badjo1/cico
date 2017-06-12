@@ -37,14 +37,5 @@ class EventTest < ActiveSupport::TestCase
     @event.venue_user_id = nil
     assert_not @event.valid?
   end
-
-  test "should require a valid frequeny" do
-    assert_equal @event.frequency.repeat, 'none'
-
-    @event.frequency = Frequency.new('weekly')
-    assert_equal @event.frequency.repeat, 'weekly'
-  end
-
-
-
+  
 end
