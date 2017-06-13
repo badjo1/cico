@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   end
   
   def fullname
-    [first_name, last_name].reject(&:blank?).map(&:capitalize).join(' ')
+    [first_name.capitalize, prefix, last_name.capitalize].reject(&:blank?).join(' ')
   end
 
   def initials

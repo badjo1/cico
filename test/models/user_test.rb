@@ -105,4 +105,11 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.authenticated?(:remember, '')
   end
 
+  test "fullname should concat first_name prefix last_name" do
+    @user.first_name = "Test"
+    @user.prefix = "van der"
+    @user.last_name = "Testcase"
+    assert_equal @user.fullname, "Test van der Testcase"
+  end
+
 end

@@ -28,7 +28,7 @@ class VenueUsersController < ApplicationController
   end
 
   def create
-    user_params = params.require(:user).permit(:first_name, :last_name, :email )
+    user_params = params.require(:user).permit(:first_name, :prefix, :last_name, :email )
     existing_user = User.find_by(email: user_params[:email].downcase)
     if existing_user.present?
       #user already exists

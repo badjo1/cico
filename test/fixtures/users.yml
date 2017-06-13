@@ -2,6 +2,7 @@
 
 user_fix_1:
   first_name: Bart
+  prefix: van der
   last_name: Bloemers
   email: bart@badjo.nl
   password_digest: <%= User.digest('password') %>

@@ -1,6 +1,6 @@
 CREATE TABLE "schema_migrations" ("version" varchar NOT NULL);
 CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version");
-CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "first_name" varchar, "last_name" varchar, "email" varchar, "password_digest" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "remember_digest" varchar, "activation_digest" varchar, "activated" boolean DEFAULT 'f', "activated_at" datetime, "reset_digest" varchar, "reset_sent_at" datetime);
+CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "first_name" varchar, "last_name" varchar, "email" varchar, "password_digest" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "remember_digest" varchar, "activation_digest" varchar, "activated" boolean DEFAULT 'f', "activated_at" datetime, "reset_digest" varchar, "reset_sent_at" datetime, "prefix" varchar);
 CREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email");
 CREATE TABLE "spaces" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "venue_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL);
 CREATE INDEX "index_spaces_on_venue_id" ON "spaces" ("venue_id");
@@ -50,4 +50,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160705204709');
 INSERT INTO schema_migrations (version) VALUES ('20160717200752');
 
 INSERT INTO schema_migrations (version) VALUES ('20170612152117');
+
+INSERT INTO schema_migrations (version) VALUES ('20170612172222');
+
+INSERT INTO schema_migrations (version) VALUES ('20170613105105');
 
