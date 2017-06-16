@@ -16,6 +16,9 @@ class SpaceEntry < ActiveRecord::Base
     (total_seconds / 60).to_i
   end
   
+  def in_slot?(start_slot_time, end_slot_time)
+    !(end_slot_time <= start_time || start_slot_time >= end_time)
+  end
 
   private
 

@@ -5,25 +5,9 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-4">    
-      <div class="btn-group" role="group">
-        <%= link_to on_schedule_path(@schedule, (@selected_date-@next_interval.day).to_i), class: "btn btn-default" do %>
-          <span class="glyphicon glyphicon-chevron-left"></span>
-        <% end %>
-        
-        <%= btn_link_active "day", on_schedule_path("day", @selected_date.to_i) %>
-        <%= btn_link_active "week", on_schedule_path("week", @selected_date.to_i) %>
-  
-        <%= link_to on_schedule_path(@schedule, (@selected_date+@next_interval.day).to_i), class: "btn btn-default" do %>
-          <span class="glyphicon glyphicon-chevron-right"></span>
-        <% end %>
-      </div>
-      <%= link_to "today", on_schedule_path(@schedule, Time.zone.now.to_i), class: "btn btn-default" %>
-    </div>
-    
-    
-    <div class='col-md-4'>
-      <%= text_field_tag 'datepicker4', @selected_date.strftime("%e %B %Y"), class: "btn btn-default" %> 
+    <div class="col-md-4 col-md-push-4">
+        <%= text_field_tag 'datepicker4', @selected_date.strftime("%e %B %Y"), class: "btn btn-default"%> 
+          
 
       <script type="text/javascript">
         $(function () {
@@ -38,14 +22,97 @@
         });
       </script>
     </div>
-    
-    <div class="col-md-4">
+    <div class="col-md-1 col-md-pull-1">&#160;</div>
+    <div class="col-md-3 col-md-pull-5">    
+      <div class="btn-group btn-group-justified"" role="group">
+        <%= link_to on_schedule_path(@schedule, (@selected_date-@next_interval.day).to_i), class: "btn btn-default" do %>
+          <span class="glyphicon glyphicon-chevron-left"></span>
+        <% end %>
+        <%= btn_link_active "day", on_schedule_path("day", @selected_date.to_i) %>
+        <%= btn_link_active "week", on_schedule_path("week", @selected_date.to_i) %>
+  
+        <%= link_to on_schedule_path(@schedule, (@selected_date+@next_interval.day).to_i), class: "btn btn-default" do %>
+          <span class="glyphicon glyphicon-chevron-right"></span>
+        <% end %>
+      </div>      
     </div>
+
+    <div class="col-md-4">
+      <!--
+      <%= link_to "today", on_schedule_path(@schedule, Time.zone.now.to_i), class: "btn btn-default btn-block" %>
+      -->
+    </div>
+    
   </div>
 
+      
 
-  <div class="row">
-    <div id='calendar'></div>
+  <div class="row visible-xs-block visible-sm-block">
+    <div class="col-xs-12">
+    &#160;
+    </div>
+      <% venue_openings_hour = @selected_date.change({ hour: 8, min: 30, sec: 0 })  %>
+      <% (0..720).step(90).each do |sum_day| %>
+        <div class="col-xs-4 col-sm-2">
+          <% slot_start_time = venue_openings_hour + sum_day.minutes %>
+          
+
+          <%= link_to new_event_path(:start_time => slot_start_time.to_i , 
+            :end_time=>(slot_start_time + 90.minutes).to_i), class: "btn btn-default btn-lg" do %>
+            <span class="glyphicon glyphicon-time"><%= slot_start_time.strftime('%k:%M') %></span>
+          <% end %>
+
+          </div>
+          <div class="col-xs-8 col-sm-10">
+            <div class="btn-group-vertical btn-block" role="group" aria-label="...">  
+
+            <% @spaces.each do |space| %>
+
+                <% if entry = @space_entries.find {|entry| entry.space_id == space.id && entry.in_slot?(slot_start_time, slot_start_time + 90.minutes)} %>
+                  <!--booked -->
+       
+                    <% classes = "btn btn-lg" 
+                    if current_venue_user_id?(entry.event.venue_user_id)
+                      classes += " btn-success"
+                    else
+                      classes += " btn-info"
+                    end %>
+
+
+
+
+                  <%= link_to schedule_event_path("day", entry.event), class: classes do %>
+                    <span>
+                      <%= entry.event.venue_user.user.first_name %>
+                      <% if entry.start_time > slot_start_time %>
+                        starts <%= entry.start_time.strftime('%k:%M') %>
+                      <% end %>     
+                      <% if entry.end_time < slot_start_time + 90.minutes %>
+                        ends <%= entry.end_time.strftime('%k:%M') %>
+                      <% end %>     
+                    </span>
+                  <% end %>
+
+
+                <%else%>
+                  <!--empty slot -->
+                  <%= link_to new_event_path(:space_id => space.id, 
+                    :start_time => slot_start_time.to_i , 
+                    :end_time=>(slot_start_time + 90.minutes).to_i), class: "btn btn-default btn-lg" do %>
+                    <span><%= space.name %></span>
+                  <% end %>
+
+              <% end %>      
+            <% end %>
+            </div>
+        </div>
+         <div class="col-xs-12">&#160;</div>
+      <% end %>
+      <hr/>
+  </div>
+  
+  <div class="row visible-md-block visible-lg-block">
+    <div id='calendar' class="col-md-12 col-lg-12"></div>
   </div>
   
 </div>

@@ -71,6 +71,34 @@ class SpaceEntryTest < ActiveSupport::TestCase
     @space_entry.end_time = @space_entry.start_time + 90.minutes
     assert_equal 90, @space_entry.duration
   end
-  
+
+  test "Slot is same as entry" do
+    assert @space_entry.in_slot?(@space_entry.start_time,@space_entry.end_time)
+  end
+    
+  test "Slot is before entry" do
+    assert_not @space_entry.in_slot?(@space_entry.start_time-90.minutes,@space_entry.start_time-1.minutes)
+  end  
+
+  test "Slot ends on entry" do
+    assert_not @space_entry.in_slot?(@space_entry.start_time-90.minutes,@space_entry.start_time)
+  end  
+
+  test "Slot start end of entry" do
+    assert_not @space_entry.in_slot?(@space_entry.end_time,@space_entry.end_time+90.minutes)
+  end 
+
+  test "Slot start_time is in entry" do
+    assert @space_entry.in_slot?(@space_entry.start_time+1.minutes,@space_entry.end_time+1.minutes)
+  end
+
+  test "Slot end time is in entry" do
+    assert @space_entry.in_slot?(@space_entry.start_time-1.minutes,@space_entry.end_time-1.minutes)
+  end
+
+  test "Slot end time and start time is in entry" do
+    assert @space_entry.in_slot?(@space_entry.start_time+1.minutes,@space_entry.end_time-1.minutes)
+  end
+
 
 end

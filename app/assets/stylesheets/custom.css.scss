@@ -1,3 +1,7 @@
+$font-family-sans-base:  Din, Verdana, sans-serif;
+$font-size-base:          14px;
+$line-height-base:        1.428571429; // 20/14
+
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import 'bootstrap-datetimepicker';
@@ -258,3 +262,30 @@ input[type="submit"] {
     border-bottom: 1px solid $gray-lighter;
   }
 }
+
+/*-----------------------------------------------------------------------------------*/
+/*  14.0 Media Queries
+/*-----------------------------------------------------------------------------------*/
+
+/* Maximum width of 479 pixels (smartphone landscape)
+------------------------------------------------------------------------------------ */
+@media screen and (max-width: 479px) {
+
+
+}
+
+/* Minimum width of 767 pixels (tablets portrait)
+------------------------------------------------------------------------------------ */
+@media screen and (max-width: 767px) {
+
+  #logo {
+    width:250px;
+    /*overflow */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+}
+
+
