@@ -13,7 +13,10 @@ class EventsController < ApplicationController
     end_unix = params[:end_time]
     space_id = params[:space_id]
 
-    @event = Event.new(event_name: "shiatsu")
+    last_inserted = Event.where(venue_user_id: current_user).order("created_at").last 
+    default_name = last_inserted ? last_inserted.event_name : "consult"
+
+    @event = Event.new(event_name: default_name)
     @event.venue_user = current_user if current_user.admin?
     @space_entry = @event.space_entries.build
     @space_entry.start_time = Time.at( start_unix.to_i )  unless start_unix.nil?
