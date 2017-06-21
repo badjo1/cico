@@ -1,14 +1,16 @@
 <% @venue_user ||= current_user %>
-  <h3>Event feed (<%= @events.count %>)
+  <h3>Event feed
     <span class="btn-group align-right" role="group">
       <%= btn_link_active "planned", planned_events_venue_user_path(@venue_user) %>
       <%= btn_link_active "archived", archived_events_venue_user_path(@venue_user) %>
     </span>
   </h3>
   <% if @events.any? %>
+    <p><%= page_entries_info @events, model: "event" %></p>
     <ol class="events">
       <%= render @events %>
     </ol>
+    <%= will_paginate @events %>
   <% else %>
     <p>no events scheduled.</p>
     <% if (@venue_user==current_user) %>

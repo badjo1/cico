@@ -6,3 +6,6 @@
   </h1>
   <div><%= @venue_user.user.activated_at.strftime("Joined %B %Y") if @venue_user.user.activated? %></div>
 </section>
+<section class="stats">
+  <%= render 'shared/stats' %>
+</section>

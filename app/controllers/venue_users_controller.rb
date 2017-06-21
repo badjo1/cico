@@ -4,13 +4,13 @@ class VenueUsersController < ApplicationController
 
   def planned_events
     @venue_user = VenueUser.find(params[:id])
-    @events = @venue_user.planned_events.paginate(page: params[:page])
+    @events = @venue_user.planned_events.paginate(page: params[:page], per_page: 50)
     render 'show'
   end
 
   def archived_events
     @venue_user = VenueUser.find(params[:id])
-    @events = @venue_user.archived_events.paginate(page: params[:page])
+    @events = @venue_user.archived_events.paginate(page: params[:page], per_page: 50)
     # @events = @venue_user.events.joins(:space_entries)
     #   .where("space_entries.start_time < ?", Time.zone.now.beginning_of_day)
     #   .paginate(page: params[:page])
