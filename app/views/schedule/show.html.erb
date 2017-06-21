@@ -254,7 +254,8 @@ $(document).ready(function() {
         document.location = '<%= schedule_path(@schedule) %>/space_entries/'+ event.id +'/edit?' +jQuery.param(data);
       },
       eventRender: function(event, element) {
-        <% if (@schedule=='day') %>
+        <% if (false && @schedule=='day') %> 
+        // disabled for now, no direct deletion in schedule
         if (event.editable) {
           element.find('.fc-time').append( "<a class='ui-icon-close' data-confirm='You sure?' rel='nofollow' data-method='delete' href="+event.url+"><span class='glyphicon glyphicon-remove-circle' aria-hidden='true'</span></a>" );
         }
