@@ -6,13 +6,13 @@
 <div class="container">
   <div class="row">
     <div class="col-md-4 col-md-push-4">
-        <%= text_field_tag 'datepicker4', @selected_date.strftime("%e %B %Y"), class: "btn btn-default"%> 
+        <%= text_field_tag 'datepicker4', @selected_date.strftime("%A, %e %B %Y"), class: "btn btn-default"%> 
           
 
       <script type="text/javascript">
         $(function () {
           $('#datepicker4').datetimepicker({
-           format: "D MMMM YYYY"
+           format: "dddd, D MMMM YYYY"
           });
           $("#datepicker4").on("dp.change",function (e) {
             //convert locale date to utc date
