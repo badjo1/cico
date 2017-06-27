@@ -4,6 +4,7 @@
   <h1>
     <%= @venue_user.fullname %>
   </h1>
+  <div><%= @venue_user.user.email if current_user.admin? %></div>
   <div><%= @venue_user.user.activated_at.strftime("Joined %B %Y") if @venue_user.user.activated? %></div>
 </section>
 <section class="stats">
