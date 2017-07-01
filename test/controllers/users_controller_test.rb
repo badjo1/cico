@@ -4,7 +4,7 @@ class UsersControllerTest < ActionController::TestCase
   
   def setup
     @user = users(:user_fix_1)
-    @other_user = users(:user_fix_2)
+    @other_user = users(:user_fix_other)
   end
 
   test "should redirect edit when not logged in" do
