@@ -27,6 +27,7 @@
         <% @event.space_entries.each do |space_entry| %>
           <tr>
             <td><%= link_to formatted_period(space_entry.start_time, space_entry.end_time), on_schedule_path('day', space_entry.start_time.to_i) %>
+              space_entry
             </td>
             <% if (@event.space_entries.length > 1) %>
 
@@ -59,6 +60,21 @@
             <li>
               <%= link_to "each week", new_event_frequency_path(@event,repeat: "eachweek") %>
             </li>
+          </ul>
+        </div>
+        
+        <div class="btn-group">
+          <%= link_to "add space", new_event_space_entry_path(@event), class:"btn btn-default"  %>
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu">
+            <% current_user.venue.spaces.each do |space| %>
+              <li>
+                <%= link_to space.name, new_event_space_entry_path(@event, space_id: space.id) %>
+              </li>
+            <% end %>
           </ul>
         </div>
       </div>

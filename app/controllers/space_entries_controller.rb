@@ -7,10 +7,10 @@ class SpaceEntriesController < ApplicationController
     #last_booked must before build
     last_booked = @event.space_entries.last
     @space_entry = @event.space_entries.build
+    @space_entry.space_id = params[:space_id]
 
     if (last_booked)
-      @space_entry.space_id = last_booked.space_id
-
+      @space_entry.space_id = last_booked.space_id if !@space_entry.space_id
       case params[:repeat]
         when "7days"
           @space_entry.start_time = last_booked.start_time + 7.days
@@ -18,6 +18,8 @@ class SpaceEntriesController < ApplicationController
           @space_entry.start_time = last_booked.start_time + 14.days
         when "1month"
           @space_entry.start_time = last_booked.start_time + 1.month
+        else
+          @space_entry.start_time = last_booked.start_time
       end      
       if @space_entry.start_time
         @space_entry.end_time = @space_entry.start_time + last_booked.duration.minutes
