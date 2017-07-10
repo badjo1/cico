@@ -24,10 +24,10 @@
       </div>
       <table class="table table-responsive">
       <tbody>
-        <% @event.space_entries.each do |space_entry| %>
+        <% @event.space_entries.includes(:space).each do |space_entry| %>
           <tr>
             <td><%= link_to formatted_period(space_entry.start_time, space_entry.end_time), on_schedule_path('day', space_entry.start_time.to_i) %>
-              space_entry
+              - <%= space_entry.space.name %>
             </td>
             <% if (@event.space_entries.length > 1) %>
 
@@ -39,7 +39,7 @@
         <% end %>
       </tbody>
       </table>
-      <% if ["training", "unavailable"].include?(@event.event_type) %>
+      <% if ["training", "unavailable"].include?(@event.event_type) && (current_user.admin? || current_venue_user_id?(@event.venue_user_id))%>
       <div class="panel-body">
         <div class="btn-group">
           <%= link_to "add lesson", new_event_space_entry_path(@event), class:"btn btn-default"  %>
