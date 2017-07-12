@@ -41,41 +41,43 @@
       </table>
       <% if ["training", "unavailable"].include?(@event.event_type) && (current_user.admin? || current_venue_user_id?(@event.venue_user_id))%>
       <div class="panel-body">
-        <div class="btn-group">
-          <%= link_to "add lesson", new_event_space_entry_path(@event), class:"btn btn-default"  %>
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="caret"></span>
-            <span class="sr-only">Toggle Dropdown</span>
-          </button>
-          <ul class="dropdown-menu">
-            <li>
-              <%= link_to "one week", new_event_space_entry_path(@event, repeat: "7days") %>
-            </li>
-            <li>
-              <%= link_to "two weeks", new_event_space_entry_path(@event, repeat: "14days") %>
-            </li>
-            <li>
-              <%= link_to "one month", new_event_space_entry_path(@event,repeat: "1month") %>
-            </li>
-            <li>
-              <%= link_to "each week", new_event_frequency_path(@event,repeat: "eachweek") %>
-            </li>
-          </ul>
-        </div>
-        
-        <div class="btn-group">
-          <%= link_to "add space", new_event_space_entry_path(@event), class:"btn btn-default"  %>
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="caret"></span>
-            <span class="sr-only">Toggle Dropdown</span>
-          </button>
-          <ul class="dropdown-menu">
-            <% current_user.venue.spaces.each do |space| %>
+        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+          <%= link_to "add", new_event_space_entry_path(@event), class:"btn btn-default"  %>  
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span>lesson</span>
+              <span class="caret"></span>
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
               <li>
-                <%= link_to space.name, new_event_space_entry_path(@event, space_id: space.id) %>
+                <%= link_to "one week", new_event_space_entry_path(@event, repeat: "7days") %>
               </li>
-            <% end %>
-          </ul>
+              <li>
+                <%= link_to "two weeks", new_event_space_entry_path(@event, repeat: "14days") %>
+              </li>
+              <li>
+                <%= link_to "one month", new_event_space_entry_path(@event,repeat: "1month") %>
+              </li>
+              <li>
+                <%= link_to "each week", new_event_frequency_path(@event,repeat: "eachweek") %>
+              </li>
+            </ul>
+          </div>          
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span>space</span>
+              <span class="caret"></span>
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+              <% current_user.venue.spaces.each do |space| %>
+                <li>
+                  <%= link_to space.name, new_event_space_entry_path(@event, space_id: space.id) %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
         </div>
       </div>
       <% end %>
