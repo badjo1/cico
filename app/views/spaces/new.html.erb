@@ -11,10 +11,11 @@
       <%= f.label :name %>
       <%= f.text_field :name, class: 'form-control' %>
 
-      <%= f.submit "Add space", class: "btn btn-primary" %>
+      <%= f.submit "Add space", class: "btn btn-primary btn-block" %>
     <% end %>
+
+    <br> <%= link_to 'Back to all spaces', spaces_path %>
 
   </div>
 </div>
 
-<%= link_to 'Back', spaces_path %>

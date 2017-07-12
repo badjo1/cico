@@ -18,10 +18,7 @@
       <%= f.label :space %>
       <%= f.select(:space_id, current_user.venue.spaces.collect {|p| [ p.name, p.id ] }, {include_blank: true}, {class: 'form-control'})%>
 
-    
-      <%= link_to :cancel, on_schedule_path(@schedule,@space_entry.start_time.to_i),:class => "btn btn-default" %>
-
-      <%= f.submit "Save changes", class: "btn btn-primary" %>
+      <%= f.submit "Save changes", class: "btn btn-primary btn-block" %>
     <% end %>
 
     <script type="text/javascript">
@@ -33,6 +30,9 @@
     </script>
         
 
+    <br><%= link_to "back to #{@space_entry.event.event_type}", schedule_event_path('day',@space_entry.event) %>
+
   </div>
 </div>
+
 
