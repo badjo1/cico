@@ -67,6 +67,30 @@ class EventsController < ApplicationController
     redirect_to on_schedule_path(@schedule, selected_date.to_i)
   end
 
+  def ical
+    event = Event.find(params[:id])
+    cal = Icalendar::Calendar.new
+
+    event_summary = "#{event.event_name} by #{event.venue_user.fullname}" 
+
+    event.space_entries.includes(:space).each do |space_entry| 
+      cal.event do |e| # This automatically adds the event to the calendar
+        e.dtstart     = space_entry.start_time
+        e.dtend       = space_entry.end_time
+        e.summary     = event_summary 
+        e.description = event.event_type
+        e.url         = schedule_event_url("day",event)
+        #e.ip_class    = "PRIVATE"
+      end
+    end
+    
+    cal.publish
+    respond_to do |format|
+      format.ics { render :text => cal.to_ical }  
+    end
+
+  end
+
   private
 
     def event_params

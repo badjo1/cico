@@ -9,6 +9,7 @@ gem 'bootstrap-sass',       '3.3.6'
 gem 'sass-rails',   '5.0.4'
 #gem 'momentjs-rails', '>= 2.9.0' in vendor folder
 gem 'bootstrap3-datetimepicker-rails', '~>  4.17'
+gem 'icalendar',    '2.4.1'
 gem 'uglifier',     '3.0.0'
 gem 'coffee-rails', '4.1.1'
 gem 'jquery-rails', '4.1.1'

@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   resources :spaces
 
   resources :events, only: [:new, :create, :destroy, :edit, :update] do
+    get 'ical' , :on => :member, :format => :ics
     resources :space_entries, only: [:new, :create]
     resources :frequencies, only: [:new, :create]
   end
