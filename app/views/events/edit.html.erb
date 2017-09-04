@@ -46,6 +46,11 @@
       <%= f.text_field :event_name, class: 'form-control' %>
     </div>
 
+    <% if current_user.admin? %>
+      <%= f.label :member %>
+       <%= f.select(:venue_user_id, @event.venue_user.venue.active_members.collect {|p| [ p.fullname, p.id ] }, {include_blank: true}, {class: 'form-control'})%>
+    <% end %>
+
     <%= f.submit "Update", class: "btn btn-primary btn-block" %>
 
     <% end %>        
