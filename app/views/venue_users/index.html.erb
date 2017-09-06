@@ -8,15 +8,6 @@
     <% @venue_users.each do |venue_user| %>
       <li>
         <%= link_to venue_user.user.fullname, planned_events_venue_user_path(venue_user) %>
-        
-
-        <% if current_user.admin? && !venue_user.user.activated? %>
-          <%= link_to "Activate", new_venue_user_account_activation_path(venue_user) %>
-        <% end %>
-        <% if current_user.admin? && !current_user?(venue_user.user) %>
-          | <%= link_to "delete", venue_user, method: :delete, data: { confirm: "You sure?" } %>
-        <% end %>
-
       </li>
     <% end %>
   </ul>
@@ -25,8 +16,7 @@
   
   <% if current_user.admin?  %>
       <br/>
-      <%= link_to "New member", new_venue_user_path, class: "btn btn-primary" %>
-  
+       <%= link_to "New member", new_venue_user_path, class: "btn btn-primary" %>
   <% end %>
   </div>
 </div>

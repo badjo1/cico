@@ -26,9 +26,16 @@ class VenueUserTest < ActiveSupport::TestCase
     assert_not duplicate_venue_user.valid?
   end
 
-   test "order should be most recent" do
+  test "order should be most recent" do
     most_recent = VenueUser.find_most_recent_by(@venue_user.user_id)
     assert_not_equal venue_users(:venue_user_latest), most_recent
   end
+
+  test "assign admin role should be admin" do
+    @venue_user.assign_admin_role
+    assert_equal @venue_user.role, VenueUser::ADMIN_ROLE_NAME
+    assert @venue_user.admin?
+  end
+
 
 end

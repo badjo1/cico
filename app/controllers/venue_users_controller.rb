@@ -1,6 +1,6 @@
 class VenueUsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :new, :create, :destroy]
-  before_action :admin_user,     only: [:destroy, :new, :create]
+  before_action :logged_in_user, only: [:index, :new, :create, :destroy, :assign_role]
+  before_action :admin_user,     only: [:destroy, :new, :create, :assign_role]
 
   def planned_events
     @venue_user = VenueUser.find(params[:id])
@@ -74,6 +74,15 @@ class VenueUsersController < ApplicationController
     redirect_to root_url
   end
 
-  private
+  def assign_role
+    venue_user = VenueUser.find(params[:id])
+    if venue_user.admin?
+      flash[:warning]="this user is already an admin"
+    else
+      venue_user.assign_admin_role
+      flash[:success]="assigned admin role to #{venue_user.user.fullname}"
+    end
+    redirect_to venue_users_url
+  end
   
 end

@@ -1,5 +1,6 @@
 class VenueUser < ActiveRecord::Base
   ADMIN_ROLE_NAME = 'admin'
+  USER_ROLE_NAME = 'user'
   belongs_to :user
   belongs_to :venue
   has_many :events
@@ -49,6 +50,15 @@ class VenueUser < ActiveRecord::Base
   def admin?
     role == ADMIN_ROLE_NAME
   end
+
+  def assign_admin_role
+    update_attribute(:role, ADMIN_ROLE_NAME)
+  end
+
+  def assign_user_role
+    update_attribute(:role, USER_ROLE_NAME)
+  end
+
   # def activate
   #   self.update_columns(activeated_at: Time.current)
   # end

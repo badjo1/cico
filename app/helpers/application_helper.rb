@@ -29,7 +29,7 @@ module ApplicationHelper
     options = current_page?(path) ? { class: "btn btn-default active" } : {class: "btn btn-default"}
     link_to text, path, options
   end
-
+  
   def nav_bar
     content_tag(:ul, class: "nav navbar-nav") do
       yield

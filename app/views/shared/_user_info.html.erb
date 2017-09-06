@@ -7,6 +7,27 @@
   <div><%= link_to @venue_user.user.email, edit_user_path(@venue_user.user) if current_user.admin? %></div>
   <div><%= @venue_user.user.activated_at.strftime("Joined %B %Y") if @venue_user.user.activated? %></div>
 </section>
+
 <section class="stats">
   <%= render 'shared/stats' %>
 </section>
+
+<% if current_user.admin? %>
+      
+  <section class="user_info">
+      <span class="btn-group align-left" role="group">
+        <% if !current_user?(@venue_user.user) %>
+            <%= link_to "delete", @venue_user, method: :delete, data: { confirm: "You sure?" }, class: "btn btn-default" %>      
+        <% end %>
+        <% if !@venue_user.admin? %>
+          <%= link_to "admin", assign_role_venue_user_path(@venue_user, :admin), class: "btn btn-default" %>
+        <% else %> 
+          <%= link_to "user", assign_role_venue_user_path(@venue_user, :user), class: "btn btn-default" %>
+        <% end %>
+        <% if !@venue_user.user.activated? %>
+          <%= link_to "activate", new_venue_user_account_activation_path(@venue_user), class: "btn btn-default" %>
+        <% end %>
+      </span>
+  </section>    
+
+<% end %>
