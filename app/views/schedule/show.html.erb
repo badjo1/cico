@@ -68,68 +68,41 @@
 
             <% @spaces.each do |space| %>
 
-              <% entries = @space_entries.select {|entry| entry.space_id == space.id && entry.in_slot?(slot_start_time, slot_start_time + 90.minutes)} %>
-              <% if entries.length == 0 %>
-                <!--empty slot -->
-                <%= link_to new_event_path(:space_id => space.id, 
-                  :start_time => slot_start_time.to_i , 
-                  :end_time=>(slot_start_time + 90.minutes).to_i), class: "btn btn-default btn-lg" do %>
-                  <span><%= space.name %></span>
-                <% end %>
-              <% else if (entries.length == 1 && entries[0].start_time <= slot_start_time && entries[0].end_time >= slot_start_time + 90.minutes) %> 
-
-                    <!--slot completed booked-->       
-                    <% 
-                    entry = entries[0]
-                    classes = "btn btn-lg" 
+                <% if entry = @space_entries.find {|entry| entry.space_id == space.id && entry.in_slot?(slot_start_time, slot_start_time + 90.minutes)} %>
+                  <!--booked -->
+       
+                    <% classes = "btn btn-lg" 
                     if current_venue_user_id?(entry.event.venue_user_id)
                       classes += " btn-success"
                     else
                       classes += " btn-info"
                     end %>
 
+
+
+
                   <%= link_to schedule_event_path("day", entry.event), class: classes do %>
                     <span>
-                      <%= "<<" if entry.start_time < slot_start_time %>   
                       <%= entry.event.venue_user.user.first_name %>
-                      <%= ">>" if entry.end_time > slot_start_time + 90.minutes %>
+                      <% if entry.start_time > slot_start_time %>
+                        starts <%= entry.start_time.strftime('%k:%M') %>
+                      <% end %>     
+                      <% if entry.end_time < slot_start_time + 90.minutes %>
+                        ends <%= entry.end_time.strftime('%k:%M') %>
+                      <% end %>     
                     </span>
                   <% end %>
-              <% else %>
-
-             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span><%= space.name %></span>
-                  <span class="badge"><%= entries.length %></span>
-                  <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <% entries.each do |entry| %>
-                      <li>
-                      <%= link_to schedule_event_path("day", entry.event) do %>
-                          <%= "#{formatted_time(entry.start_time)}-#{formatted_time(entry.end_time)}" %>
-                          <%= entry.event.venue_user.user.first_name %>
-                      <% end %>
-                      </li>
-                    <% end %>
-                </ul>
-            </div>
 
 
-                <div class="btn-group" role="group" aria-label="...">
-                  <% entries.each do |entry| %>
-               
-                      <%= link_to schedule_event_path("day", entry.event), class: "btn btn-default btn-lg" do %>
-                        <span>
-                          <%= entry.event.venue_user.user.first_name %>
-                        </span>
-                      <% end %>
-
+                <%else%>
+                  <!--empty slot -->
+                  <%= link_to new_event_path(:space_id => space.id, 
+                    :start_time => slot_start_time.to_i , 
+                    :end_time=>(slot_start_time + 90.minutes).to_i), class: "btn btn-default btn-lg" do %>
+                    <span><%= space.name %></span>
                   <% end %>
-                </div>
 
-              <% end %> 
-            <% end %>
+              <% end %>      
             <% end %>
             </div>
         </div>
@@ -315,9 +288,6 @@ $(document).ready(function() {
     }    
   });
 </script>
-
-
-
 
 
 
