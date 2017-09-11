@@ -4,13 +4,20 @@
   <div class="row">
   <h1>All members of <%= current_user.venue.name %></h1>
   <%= will_paginate %>
-  <ul class="users">
+  <div class="table-responsive">
+    <table class="table table-striped"">
+      <tr>
+        <th>Name</th>
+        <th>E-mail</th>
+      </tr>
     <% @venue_users.each do |venue_user| %>
-      <li>
-        <%= link_to venue_user.user.fullname, planned_events_venue_user_path(venue_user) %>
-      </li>
+      <tr>
+        <td><%= link_to venue_user.user.fullname, planned_events_venue_user_path(venue_user) %></td>
+        <td><%= venue_user.user.email %></td>
+      </tr>
     <% end %>
-  </ul>
+    </table>    
+  </div>
   <%= will_paginate %>
 
   
