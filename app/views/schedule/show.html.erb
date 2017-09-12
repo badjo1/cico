@@ -252,7 +252,12 @@ $(document).ready(function() {
       color: '#EAD7D7',   
       textColor: '#8F3a39',
       borderColor: '#DFC2c8',
-      editable: <%= current_user.admin? ? "true" : "false" %> 
+      <% if (current_user.admin? ) %>
+        url: '<%= schedule_event_path(@schedule, entry.event_id) %>' ,
+        editable: true
+      <% else %> 
+        editable: false
+      <% end %>
     <% end %>
     },
 <% end %>
