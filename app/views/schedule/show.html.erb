@@ -68,41 +68,83 @@
 
             <% @spaces.each do |space| %>
 
-                <% if entry = @space_entries.find {|entry| entry.space_id == space.id && entry.in_slot?(slot_start_time, slot_start_time + 90.minutes)} %>
-                  <!--booked -->
-       
-                    <% classes = "btn btn-lg" 
-                    if current_venue_user_id?(entry.event.venue_user_id)
-                      classes += " btn-success"
-                    else
-                      classes += " btn-info"
-                    end %>
-
-
-
-
-                  <%= link_to schedule_event_path("day", entry.event), class: classes do %>
+              <% entries = @space_entries.select {|entry| entry.space_id == space.id && entry.in_slot?(slot_start_time, slot_start_time + 90.minutes)} %>
+              <% if entries.length == 0 %>
+                <!--empty slot -->
+                <%= link_to new_event_path(:space_id => space.id, 
+                  :start_time => slot_start_time.to_i , 
+                  :end_time=>(slot_start_time + 90.minutes).to_i), class: "btn btn-default btn-lg" do %>
+                  <span><%= space.name %></span>
+                <% end %>
+              <% else if (entries.length == 1 && entries[0].start_time <= slot_start_time && entries[0].end_time >= slot_start_time + 90.minutes) %> 
+                  <% entry = entries[0] %>
+                  <%= link_to schedule_event_path("day", entry.event), class: schedule_classes(current_venue_user_id?(entry.event.venue_user_id)) do %>
                     <span>
+                      <%= "~" if entry.start_time < slot_start_time %>   
                       <%= entry.event.venue_user.user.first_name %>
-                      <% if entry.start_time > slot_start_time %>
-                        starts <%= entry.start_time.strftime('%k:%M') %>
-                      <% end %>     
-                      <% if entry.end_time < slot_start_time + 90.minutes %>
-                        ends <%= entry.end_time.strftime('%k:%M') %>
-                      <% end %>     
+                      <%= "~" if entry.end_time > slot_start_time + 90.minutes %>
                     </span>
                   <% end %>
+              <% else %>
 
+               <div class="btn-group" role="group">
+                  <button type="button" class="btn btn-default btn-lg btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <% if entries.length > 1 %>
+                        <span><%= space.name %></span>
+                        <span class="badge"><%= entries.length %></span>
+                      <% elsif entries.length == 1 %>
+                         <% entry = entries[0] %>
+                         <span>
+                          <!--   <%= "#{formatted_time(entry.start_time)}" if entry.start_time > slot_start_time %>   
+                            <%= "..." if entry.start_time < slot_start_time %>   
+                            <%= entry.event.venue_user.user.first_name %>
+                            <%= "#{formatted_time(entry.end_time)}" if entry.end_time < slot_start_time + 90.minutes %>   
+                             -->
 
-                <%else%>
-                  <!--empty slot -->
-                  <%= link_to new_event_path(:space_id => space.id, 
-                    :start_time => slot_start_time.to_i , 
-                    :end_time=>(slot_start_time + 90.minutes).to_i), class: "btn btn-default btn-lg" do %>
-                    <span><%= space.name %></span>
-                  <% end %>
-
-              <% end %>      
+                            <%= "..... #{formatted_time(entry.start_time)}" if entry.start_time > slot_start_time %>
+                            <%= "~" if entry.start_time < slot_start_time %>      
+                            <%= entry.event.venue_user.user.first_name %>
+                            <%= "#{formatted_time(entry.end_time)} ....." if entry.end_time < slot_start_time + 90.minutes %>   
+                            <%= "~" if entry.end_time > slot_start_time + 90.minutes %>
+                          </span>
+                      <% end %>
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu">
+                      <% slot_in_time = slot_start_time %>
+                      <% entries.each do |entry| %>
+                        <%if entry.start_time > slot_in_time %>   
+                          <li>
+                          <%= link_to new_event_path(:space_id => space.id, 
+                            :start_time => slot_in_time.to_i , 
+                            :end_time=>(entry.start_time).to_i) do %>
+                            <%= "#{formatted_time(slot_in_time)}-#{formatted_time(entry.start_time)}" %>
+                            <%= "..... #{space.name}" %>
+                          <% end %>
+                          </li>
+                        <% end %>                        
+                        <li>
+                        <%= link_to schedule_event_path("day", entry.event) do %>
+                            <%= "#{formatted_time(entry.start_time)}-#{formatted_time(entry.end_time)}" %>
+                            <%= entry.event.venue_user.user.first_name %>
+                        <% end %>
+                        </li>
+                        <% slot_in_time = entry.end_time %>
+                      <% end %>
+                       <%if slot_in_time < slot_start_time + 90.minutes %>   
+                          <li>
+                          <%= link_to new_event_path(:space_id => space.id, 
+                            :start_time => slot_in_time.to_i , 
+                            :end_time=>(slot_start_time + 90.minutes).to_i) do %>
+                            <%= "#{formatted_time(slot_in_time)}-#{formatted_time(slot_start_time + 90.minutes)}" %>
+                            <%= "..... #{space.name}" %>
+                          <% end %>
+                          </li>
+                        <% end %>                        
+                  </ul>
+                </div>
+              <% end %> 
+            <% end %>
             <% end %>
             </div>
         </div>
@@ -200,14 +242,17 @@ $(document).ready(function() {
     start: '<%= entry.start_time.strftime("%Y-%m-%d %R") %>',
     end: '<%= entry.end_time.strftime("%Y-%m-%d %R") %>',
     resourceId: '<%= entry.space_id %>',
-    <% if (current_venue_user_id?(entry.event.venue_user_id)||current_user.admin?) %>
+    <% if (current_venue_user_id?(entry.event.venue_user_id)) %>
       url: '<%= schedule_event_path(@schedule, entry.event_id) %>' ,
       editable: true,
+      color: '#5bc0de',   
+      textColor: '#0d47a1',
+      borderColor: '#55a8ce'
+    <% else %> 
       color: '#EAD7D7',   
       textColor: '#8F3a39',
-      borderColor: '#DFC2c8'
-    <% else %>
-      editable: false
+      borderColor: '#DFC2c8',
+      editable: <%= current_user.admin? ? "true" : "false" %> 
     <% end %>
     },
 <% end %>
@@ -288,6 +333,9 @@ $(document).ready(function() {
     }    
   });
 </script>
+
+
+
 
 
 
